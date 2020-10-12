@@ -3,7 +3,7 @@ import './util/extendNativeClassFunctions'
 import loadAssets from './util/loadAssets'
 import config from './data/config'
 import { createPhavuerApp } from './phavuer/index'
-import MainScene from './class/MainScene'
+import App from './class/App'
 
 const option = {
   type: Phaser.AUTO,
@@ -11,7 +11,7 @@ const option = {
   height: config.HEIGHT,
   scene: {
     create () {
-      createPhavuerApp(this.game, { MainScene })
+      createPhavuerApp(this.game, App)
     },
     preload () {
       loadAssets(this)
