@@ -2,6 +2,7 @@ import { createApp, inject, watch, onUnmounted } from 'vue'
 import components from './components'
 import setters from './setters'
 
+export const Scene = components.Scene
 export const Container = components.Container
 export const Sprite = components.Sprite
 export const Text = components.Text
@@ -30,7 +31,8 @@ export const initGameObject = (object, props, context) => {
     scene.add.existing(object)
   }
   // Set update event
-  if (context.attrs.onUpdate) object.preUpdate = (...arg) => context.emit('update', ...arg)
+  if (context.attrs.onCreate) context.emit('create', object)
+  if (context.attrs.onUpdate) object.preUpdate = (...arg) => context.emit('update', object, ...arg)
   // Set interactive events
   if (context.attrs.onPointerdown || context.attrs.onPointerup) {
     object.setInteractive()
