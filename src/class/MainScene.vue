@@ -1,7 +1,7 @@
 <template>
   <Scene :name="name" :autoStart="true" @create="create" @update="update">
-    <Text v-if="showText">aaaaa</Text>
-    <Sprite texture="marker" />
+    <Text>aaaaa</Text>
+    <Player />
   </Scene>
 </template>
 
@@ -9,9 +9,9 @@
 import { ref } from 'vue'
 import Scene from '../phavuer/components/Scene'
 import Text from '../phavuer/components/Text'
-import Sprite from '../phavuer/components/Sprite'
+import Player from './Player'
 export default {
-  components: { Scene, Text, Sprite },
+  components: { Scene, Text, Player },
   props: {
     name: { type: String, require: true }
   },
@@ -21,15 +21,10 @@ export default {
     }
     const update = () => {
     }
-    const showText = ref(false)
-    setInterval(() => {
-      showText.value = !showText.value
-    }, 5000)
     return {
       name: props.name,
       create,
-      update,
-      showText
+      update
     }
   }
 }
