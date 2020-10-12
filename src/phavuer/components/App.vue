@@ -8,11 +8,9 @@
 import { ref, inject } from 'vue'
 export default {
   setup () {
-    const componentNames = inject('componentNames')
-    const app = ref(null)
     return {
-      componentNames,
-      app
+      componentNames: inject('componentNames'),
+      app: ref(null)
     }
   }
 }

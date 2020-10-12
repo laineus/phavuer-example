@@ -12,14 +12,17 @@ export default {
   },
   setup (props, context) {
     const Scene = class extends Phaser.Scene {
-      create (...arg) {
-        context.emit('create', this, ...arg)
+      init (data) {
+        context.emit('init', this, data)
       }
-      update (...arg) {
-        context.emit('update', this, ...arg)
+      create (data) {
+        context.emit('create', this, data)
       }
-      preload (...arg) {
-        context.emit('preload', this, ...arg)
+      update (time, delta) {
+        context.emit('update', this, time, delta)
+      }
+      preload () {
+        context.emit('preload', this)
       }
     }
     const game = inject('game')

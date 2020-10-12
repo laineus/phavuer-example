@@ -1,5 +1,5 @@
 <template>
-  <Scene @create="create" @update="update" :name="name" :autoStart="true" />
+  <Scene :name="name" :autoStart="true" @create="create" @update="update" />
 </template>
 
 <script>
