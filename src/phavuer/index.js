@@ -7,11 +7,16 @@ export const Sprite = components.Sprite
 export const Text = components.Text
 export const Rectangle = components.Rectangle
 
-export const createComponent = (scene, component) => {
-  const app = createApp(component)
-  app.provide('scene', scene)
+export const createPhavuerApp = (game, sceneComponents) => {
+  const app = createApp(components.App)
+  Object.keys(sceneComponents).map(key => app.component(key, sceneComponents[key]))
+  app.provide('game', game)
+  app.provide('componentNames', Object.keys(sceneComponents))
+  app.provide('scene', null)
   app.provide('container', null)
+  // mount Vue 3 app
   const dummyElement = window.document.createElement('div')
+  document.body.appendChild(dummyElement)
   return app.mount(dummyElement)
 }
 
