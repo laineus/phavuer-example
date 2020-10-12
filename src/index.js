@@ -12,6 +12,8 @@ const createPhavuerApp = (game, sceneComponents) => {
   Object.keys(sceneComponents).map(key => app.component(key, sceneComponents[key]))
   app.provide('game', game)
   app.provide('componentNames', Object.keys(sceneComponents))
+  app.provide('scene', null)
+  app.provide('container', null)
   // mount Vue 3 app
   const dummyElement = window.document.createElement('div')
   document.body.appendChild(dummyElement)

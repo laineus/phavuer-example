@@ -18,7 +18,12 @@ export const createComponent = (scene, component) => {
 export const initGameObject = (object, props, context) => {
   // Append to parent container
   const container = inject('container')
-  if (container) container.add([object])
+  if (container) {
+    container.add([object])
+  } else {
+    const scene = inject('scene')
+    scene.add.existing(object)
+  }
   // Set update event
   if (context.attrs.onUpdate) object.preUpdate = (...arg) => context.emit('update', ...arg)
   // Set interactive events
