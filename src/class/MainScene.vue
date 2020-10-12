@@ -1,6 +1,7 @@
 <template>
   <Scene :name="name" :autoStart="true" @create="create" @update="update">
     <Text v-if="showText">aaaaa</Text>
+    <Sprite texture="marker" />
   </Scene>
 </template>
 
@@ -8,8 +9,9 @@
 import { ref } from 'vue'
 import Scene from '../phavuer/components/Scene'
 import Text from '../phavuer/components/Text'
+import Sprite from '../phavuer/components/Sprite'
 export default {
-  components: { Scene, Text },
+  components: { Scene, Text, Sprite },
   props: {
     name: { type: String, require: true }
   },

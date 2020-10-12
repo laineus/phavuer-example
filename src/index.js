@@ -1,5 +1,6 @@
 import 'phaser'
 import './util/extendNativeClassFunctions'
+import loadAssets from './util/loadAssets'
 import config from './data/config'
 import { createPhavuerApp } from './phavuer/index'
 import MainScene from './class/MainScene'
@@ -11,6 +12,9 @@ const option = {
   scene: {
     create () {
       createPhavuerApp(this.game, { MainScene })
+    },
+    preload () {
+      loadAssets(this)
     }
   },
   parent: 'game',
