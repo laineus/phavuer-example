@@ -1,5 +1,5 @@
 <template>
-  <Scene ref="scene" @create="create" key="main" :active="true" />
+  <Scene ref="scene" @create="create" @update="update" :name="name" :autoStart="true" />
 </template>
 
 <script>
@@ -7,18 +7,20 @@ import { ref } from 'vue'
 import Scene from '../phavuer/components/Scene'
 export default {
   components: { Scene },
+  props: {
+    name: { type: String, require: true }
+  },
   setup (props) {
-    console.log(props.scene)
-    const create = () => {
-      console.log('created')
+    const create = (scene) => {
+      console.log('created', scene)
+    }
+    const update = () => {
     }
     return {
-      scene: ref(null),
-      create
+      name: props.name,
+      create,
+      update
     }
-  },
-  props: {
-    scene: null
   }
 }
 </script>

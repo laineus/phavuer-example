@@ -1,21 +1,17 @@
 <template>
   <div>
-    <component ref="app" :is="key" v-for="(scene, key) in scenes" :key="key" :scene="scene" />
+    <component ref="app" :is="name" v-for="name in componentNames" :key="name" :name="name" />
   </div>
 </template>
 
 <script>
-import { ref, inject, onMounted } from 'vue'
+import { ref, inject } from 'vue'
 export default {
   setup () {
-    const game = inject('game')
-    const scenes = inject('scenes')
+    const componentNames = inject('componentNames')
     const app = ref(null)
-    onMounted(() => {
-    })
     return {
-      game,
-      scenes,
+      componentNames,
       app
     }
   }
