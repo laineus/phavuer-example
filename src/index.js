@@ -7,20 +7,20 @@ import App from './phavuer/components/App'
 import { toRaw, createApp } from 'vue'
 import MainScene from './class/MainScene'
 
-const createPhavuerApp = (sceneComponents, startSceneName) => {
-  const boot = bootScene => {
-    const app = createApp(App)
-    Object.keys(sceneComponents).map(key => app.component(key, sceneComponents[key]))
-    app.provide('game', bootScene.game)
-    app.provide('componentNames', Object.keys(sceneComponents))
-    // mount Vue 3 app
-    const dummyElement = window.document.createElement('div')
-    document.body.appendChild(dummyElement)
-    return app.mount(dummyElement)
-  }
+const createPhavuerApp = (game, sceneComponents) => {
+  const app = createApp(App)
+  Object.keys(sceneComponents).map(key => app.component(key, sceneComponents[key]))
+  app.provide('game', game)
+  app.provide('componentNames', Object.keys(sceneComponents))
+  // mount Vue 3 app
+  const dummyElement = window.document.createElement('div')
+  document.body.appendChild(dummyElement)
+  return app.mount(dummyElement)
+}
+const createPhavuerBootScene = (sceneComponents) => {
   return {
     create () {
-      boot(this)
+      createPhavuerApp(this, sceneComponents)
     }
   }
 }
@@ -31,7 +31,7 @@ const option = {
   type: Phaser.AUTO,
   width: config.WIDTH,
   height: config.HEIGHT,
-  scene: createPhavuerApp({ MainScene }, 'MainScene'),
+  scene: createPhavuerBootScene({ MainScene }),
   parent: 'game',
   physics: {
     default: 'arcade',
