@@ -1,6 +1,6 @@
 <template>
   <Container :ref="el => object = el && el.object" @create="create" @update="update" :depth="data.depth">
-    <Sprite texture="kinoko" :frame="data.frame" :flipX="data.flipX" />
+    <Sprite :ref="el => sprite = el && el.object" texture="kinoko" :frame="data.frame" :flipX="data.flipX" />
   </Container>
 </template>
 
@@ -14,6 +14,8 @@ export default {
   props: ['initialX', 'initialY', 'target'],
   setup (props, context) {
     const scene = inject('scene')
+    const object = ref(null)
+    const sprite = ref(null)
     const data = reactive({ frame: 0, flipX: false, depth: 0 })
     const targetPosition = reactive({ x: props.initialX, y: props.initialY })
     const animator = new FrameAnimator([{ key: 'walk', start: 6, end: 8, duration: 20 }])
@@ -22,7 +24,12 @@ export default {
       targetPosition.y = y
     }
     const hit = () => {
-      context.emit('destroy')
+      sprite.value.setTint(0xFF0000)
+      scene.add.tween({
+        targets: sprite.value, duration: 150, ease: 'Power2',
+        scaleX: 1.3, scaleY: 1.3, alpha: 0.2,
+        onComplete: () => context.emit('destroy')
+      })
     }
     const create = object => {
       object.setPosition(props.initialX, props.initialY)
@@ -44,7 +51,8 @@ export default {
       object.body.velocity.normalize().scale(100)
     }
     return {
-      object: ref(null),
+      object,
+      sprite,
       data,
       create,
       update,
