@@ -1,5 +1,5 @@
 <template>
-  <Container ref="el" @create="create" @update="update" :depth="data.depth">
+  <Container :ref="el => object = el && el.object" @create="create" @update="update" :depth="data.depth">
     <Sprite texture="spinel" :frame="data.frame" :flipX="data.flipX" />
   </Container>
 </template>
@@ -14,7 +14,8 @@ export default {
   props: ['initialX', 'initialY'],
   setup (props, context) {
     const scene = inject('scene')
-    const data = reactive({ tick: 0, frame: 0, flipX: false, depth: 0, tgtX: props.initialX, tgtY: props.initialY })
+    const tick = inject('tick')
+    const data = reactive({ frame: 0, flipX: false, depth: 0, tgtX: props.initialX, tgtY: props.initialY })
     const animator = new FrameAnimator([{ key: 'walk', start: 3, end: 5, duration: 20 }])
     const setTargetPosition = (x, y) => {
       data.tgtX = x
@@ -26,12 +27,11 @@ export default {
       object.body.setDrag(300)
     }
     const update = (object, time) => {
-      data.tick++
       data.depth = object.y
       data.frame = animator.play('walk')
       const diffX = data.tgtX - object.x
       const diffY = data.tgtY - object.y
-      if (data.tick % 30 === 0) {
+      if (tick.value % 30 === 0) {
         context.emit('shot', { x: object.x, y: object.y, r: Math.atan2(-diffY, -diffX) })
       }
       const distance = Math.hypot(diffY, diffY)
@@ -44,7 +44,7 @@ export default {
       object.body.velocity.normalize().scale(200)
     }
     return {
-      el: ref(null),
+      object: ref(null),
       data,
       create,
       update,

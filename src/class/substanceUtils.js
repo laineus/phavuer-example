@@ -19,8 +19,8 @@ export class Repository {
     const row = {
       id: this.lastId,
       item,
-      object: null,
-      register: data => row.object = data
+      el: null,
+      register: data => row.el = data
     }
     this.list.push(row)
   }

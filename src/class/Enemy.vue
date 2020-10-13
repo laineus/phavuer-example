@@ -1,5 +1,5 @@
 <template>
-  <Container ref="el" @create="create" @update="update" :depth="data.depth">
+  <Container :ref="el => object = el && el.object" @create="create" @update="update" :depth="data.depth">
     <Sprite texture="kinoko" :frame="data.frame" :flipX="data.flipX" />
   </Container>
 </template>
@@ -12,7 +12,7 @@ import FrameAnimator from './FrameAnimator'
 export default {
   components: { Container, Sprite },
   props: ['initialX', 'initialY', 'target'],
-  setup (props) {
+  setup (props, context) {
     const scene = inject('scene')
     const data = reactive({ frame: 0, flipX: false, depth: 0 })
     const targetPosition = reactive({ x: props.initialX, y: props.initialY })
@@ -20,6 +20,9 @@ export default {
     const setTargetPosition = (x, y) => {
       targetPosition.x = x
       targetPosition.y = y
+    }
+    const hit = () => {
+      context.emit('destroy')
     }
     const create = object => {
       object.setPosition(props.initialX, props.initialY)
@@ -29,9 +32,9 @@ export default {
     const update = object => {
       data.depth = object.y
       data.frame = animator.play('walk')
-      const diffX = props.target.el.object.x - object.x
-      const diffY = props.target.el.object.y - object.y
-      const distance = Math.hypot(diffY, diffY)
+      const diffX = props.target.object.x - object.x
+      const diffY = props.target.object.y - object.y
+      const distance = Math.hypot(diffX, diffY)
       if (distance < 10) {
         object.body.setVelocity(0, 0)
         return
@@ -41,11 +44,12 @@ export default {
       object.body.velocity.normalize().scale(100)
     }
     return {
-      el: ref(null),
+      object: ref(null),
       data,
       create,
       update,
-      setTargetPosition
+      setTargetPosition,
+      hit
     }
   }
 }

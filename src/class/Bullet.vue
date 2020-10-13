@@ -1,5 +1,5 @@
 <template>
-  <Sprite ref="el" texture="fire" :frame="data.frame" @create="create" @update="update" />
+  <Sprite :ref="el => object = el && el.object" texture="fire" :frame="data.frame" @create="create" @update="update" />
 </template>
 
 <script>
@@ -26,16 +26,17 @@ export default {
     const update = object => {
       data.frame = animator.play('fire')
       if (overScreen(object, 20)) context.emit('destroy')
-      enemies.list.some(v => {
-        if (closeTo(object, v.object)) {
+      enemies.list.some(enemy => {
+        if (closeTo(object, enemy.el.object)) {
           context.emit('destroy')
+          enemy.el.hit()
           return true
         }
         return false
       })
     }
     return {
-      el: ref(null),
+      object: ref(null),
       data,
       create,
       update
