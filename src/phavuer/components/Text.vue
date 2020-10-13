@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { inject, watch } from 'vue'
+import { inject, reactive, watch } from 'vue'
 import { initGameObject } from '../index.js'
 export default {
   setup (props, context) {
