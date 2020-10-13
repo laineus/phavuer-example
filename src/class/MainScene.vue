@@ -2,8 +2,8 @@
   <Scene name="MainScene" :autoStart="true" @create="create" @update="update">
     <Sprite :origin="0" texture="forest" />
     <Text>Score: 0000</Text>
-    <Player ref="player" :initialX="400" :initialY="300" @shot="v => bullets.add(v)" />
-    <Enemy :target="player" :initialX="700" :initialY="200" />
+    <Player ref="player" :initialX="400" :initialY="300" @shot="v => bullets.push(v)" />
+    <Enemy v-for="v in enemies.list" :key="v.id" :initialX="v.item.x" :initialY="v.item.y" @destroy="enemies.remove(v.id)" :target="player" />
     <Bullet v-for="v in bullets.list" :key="v.id" :initialX="v.item.x" :initialY="v.item.y" :r="v.item.r" :depth="1000" @destroy="bullets.remove(v.id)" />
   </Scene>
 </template>
@@ -21,20 +21,27 @@ export default {
   components: { Scene, Sprite, Text, Player, Enemy, Bullet },
   setup (props) {
     const player = ref(null)
+    const tick = ref(0)
     const bullets = new Repository()
+    const enemies = new Repository()
     const create = (scene) => {
       console.log('created', scene)
     }
     const update = (scene) => {
+      tick.value++
       const activePointer = scene.input.manager.pointers.find(v => v.isDown)
       if (activePointer) {
         player.value.setTargetPosition(activePointer.x, activePointer.y)
+      }
+      if (tick.value % 5000 === 10) {
+        enemies.push({ x: 700, y: 300 })
       }
     }
     return {
       create,
       update,
       player,
+      enemies,
       bullets
     }
   }

@@ -10,7 +10,7 @@ export class Repository {
     this.list = reactive([])
     this.lastId = 0
   }
-  add (item) {
+  push (item) {
     this.lastId++
     this.list.push({ id: this.lastId, item })
   }
