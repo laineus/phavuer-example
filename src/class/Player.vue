@@ -14,12 +14,11 @@ export default {
   props: ['initialX', 'initialY'],
   setup (props) {
     const scene = inject('scene')
-    const data = reactive({ frame: 0, flipX: false, depth: 0 })
-    const targetPosition = reactive({ x: props.initialX, y: props.initialY })
+    const data = reactive({ frame: 0, flipX: false, depth: 0, tgtX: props.initialX, tgtY: props.initialY })
     const animator = new FrameAnimator([{ key: 'walk', start: 3, end: 5, duration: 20 }])
     const setTargetPosition = (x, y) => {
-      targetPosition.x = x
-      targetPosition.y = y
+      data.tgtX = x
+      data.tgtY = y
     }
     const create = object => {
       object.setPosition(props.initialX, props.initialY)
@@ -29,8 +28,8 @@ export default {
     const update = object => {
       data.depth = object.y
       data.frame = animator.play('walk')
-      const diffX = targetPosition.x - object.x
-      const diffY = targetPosition.y - object.y
+      const diffX = data.tgtX - object.x
+      const diffY = data.tgtY - object.y
       const distance = Math.hypot(diffY, diffY)
       if (distance < 10) {
         object.body.setVelocity(0, 0)
