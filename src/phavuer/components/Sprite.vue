@@ -22,7 +22,8 @@ export default {
     'scale', 'scaleX', 'scaleY',
     'depth',
     'alpha',
-    'texture'
+    'texture', 'frame',
+    'flipX', 'flipY'
   ]
 }
 </script>
