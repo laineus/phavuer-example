@@ -31,6 +31,9 @@ export default {
       data.frame = animator.play('walk')
       const diffX = data.tgtX - object.x
       const diffY = data.tgtY - object.y
+      if (data.tick % 30 === 0) {
+        context.emit('shot', { x: object.x, y: object.y, r: Math.atan2(-diffY, -diffX) })
+      }
       const distance = Math.hypot(diffY, diffY)
       if (distance < 10) {
         object.body.setVelocity(0, 0)
@@ -39,9 +42,6 @@ export default {
       data.flipX = diffX < 0
       object.body.setVelocity(diffX, diffY)
       object.body.velocity.normalize().scale(200)
-      if (data.tick % 30 === 0) {
-        context.emit('shot', object.x, object.y, Math.atan2(-diffY, -diffX))
-      }
     }
     return {
       el: ref(null),
