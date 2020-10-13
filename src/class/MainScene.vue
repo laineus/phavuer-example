@@ -3,13 +3,13 @@
     <Sprite :origin="0" texture="forest" />
     <Text>Score: 0000</Text>
     <Player ref="player" :initialX="400" :initialY="300" @shot="v => bullets.push(v)" />
-    <Enemy v-for="v in enemies.list" :key="v.id" :initialX="v.item.x" :initialY="v.item.y" @destroy="enemies.remove(v.id)" :target="player" />
+    <Enemy v-for="v in enemies.list" :key="v.id" :initialX="v.item.x" :initialY="v.item.y" @create="v.register" @destroy="enemies.remove(v.id)" :target="player" />
     <Bullet v-for="v in bullets.list" :key="v.id" :initialX="v.item.x" :initialY="v.item.y" :r="v.item.r" :depth="1000" @destroy="bullets.remove(v.id)" />
   </Scene>
 </template>
 
 <script>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, provide, reactive, onMounted } from 'vue'
 import { Repository } from './substanceUtils'
 import Scene from '../phavuer/components/Scene'
 import Text from '../phavuer/components/Text'
@@ -24,6 +24,8 @@ export default {
     const tick = ref(0)
     const bullets = new Repository()
     const enemies = new Repository()
+    provide('bullets', bullets)
+    provide('enemies', enemies)
     const create = (scene) => {
       console.log('created', scene)
     }
