@@ -40,7 +40,7 @@ export default {
       object.body.setVelocity(diffX, diffY)
       object.body.velocity.normalize().scale(200)
       if (data.tick % 30 === 0) {
-        context.emit('shot', object.x, object.y)
+        context.emit('shot', object.x, object.y, Math.atan2(-diffY, -diffX))
       }
     }
     return {

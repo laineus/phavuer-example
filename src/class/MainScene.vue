@@ -4,7 +4,7 @@
     <Text>Score: 0000</Text>
     <Player ref="player" :initialX="400" :initialY="300" @shot="shot" />
     <Enemy :target="player" :initialX="700" :initialY="200" />
-    <Bullet v-for="(v, i) in bullets" :key="i" :initialX="v.x" :initialY="v.y" :r="0" />
+    <Bullet v-for="v in bullets" :key="v.id" :initialX="v.x" :initialY="v.y" :r="v.r" :depth="1000" @destroy="destroyBullet(v)" />
   </Scene>
 </template>
 
@@ -30,15 +30,22 @@ export default {
         player.value.setTargetPosition(activePointer.x, activePointer.y)
       }
     }
-    const shot = (x, y) => {
-      bullets.push({ x, y })
+    let bulletId = 0
+    const shot = (x, y, r) => {
+      bulletId++
+      bullets.push({ id: bulletId, x, y, r })
+    }
+    const destroyBullet = bullet => {
+      const i = bullets.findIndex(b => bullet)
+      bullets.splice(i, 1)
     }
     return {
       create,
       update,
       player,
       bullets,
-      shot
+      shot,
+      destroyBullet
     }
   }
 }
