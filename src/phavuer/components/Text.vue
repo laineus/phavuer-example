@@ -12,7 +12,7 @@ export default {
     class Text extends Phaser.GameObjects.Text {
       preUpdate () {}
     }
-    const object = new Text(scene, props.x, props.y, getInnerText())
+    const object = reactive(new Text(scene, props.x, props.y, getInnerText()))
     watch(getInnerText, v => object.setText(v))
     initGameObject(object, props, context)
     return { object }
