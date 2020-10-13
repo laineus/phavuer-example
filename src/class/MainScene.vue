@@ -1,7 +1,9 @@
 <template>
   <Scene name="MainScene" :autoStart="true" @create="create" @update="update">
-    <Text>aaaaa</Text>
+    <Sprite :origin="0" texture="forest" />
+    <Text>Score: 0000</Text>
     <Player ref="player" :initialX="400" :initialY="300" />
+    <Enemy :target="player" :initialX="700" :initialY="200" />
   </Scene>
 </template>
 
@@ -9,9 +11,11 @@
 import { ref, onMounted } from 'vue'
 import Scene from '../phavuer/components/Scene'
 import Text from '../phavuer/components/Text'
+import Sprite from '../phavuer/components/Sprite'
 import Player from './Player'
+import Enemy from './Enemy'
 export default {
-  components: { Scene, Text, Player },
+  components: { Scene, Sprite, Text, Player, Enemy },
   setup (props) {
     const create = (scene) => {
       console.log('created', scene)

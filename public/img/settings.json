@@ -1,4 +1,5 @@
 [
-  ["player.png", 4, 3],
-  ["balloon.png", 4, 2]
+  ["spinel.png", 6, 4],
+  ["balloon.png", 4, 2],
+  ["kinoko.png", 3, 4]
 ]

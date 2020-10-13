@@ -1,6 +1,6 @@
 <template>
   <Container ref="el" @create="create" @update="update" :depth="data.depth">
-    <Sprite texture="spinel" :frame="data.frame" :flipX="data.flipX" />
+    <Sprite texture="kinoko" :frame="data.frame" :flipX="data.flipX" />
   </Container>
 </template>
 
@@ -11,12 +11,12 @@ import Sprite from '../phavuer/components/Sprite'
 import FrameAnimator from './FrameAnimator'
 export default {
   components: { Container, Sprite },
-  props: ['initialX', 'initialY'],
+  props: ['initialX', 'initialY', 'target'],
   setup (props) {
     const scene = inject('scene')
     const data = reactive({ frame: 0, flipX: false, depth: 0 })
     const targetPosition = reactive({ x: props.initialX, y: props.initialY })
-    const animator = new FrameAnimator([{ key: 'walk', start: 3, end: 5, duration: 20 }])
+    const animator = new FrameAnimator([{ key: 'walk', start: 6, end: 8, duration: 20 }])
     const setTargetPosition = (x, y) => {
       targetPosition.x = x
       targetPosition.y = y
@@ -29,8 +29,8 @@ export default {
     const update = object => {
       data.depth = object.y
       data.frame = animator.play('walk')
-      const diffX = targetPosition.x - object.x
-      const diffY = targetPosition.y - object.y
+      const diffX = props.target.el.object.x - object.x
+      const diffY = props.target.el.object.y - object.y
       const distance = Math.hypot(diffY, diffY)
       if (distance < 10) {
         object.body.setVelocity(0, 0)
@@ -38,7 +38,7 @@ export default {
       }
       data.flipX = diffX < 0
       object.body.setVelocity(diffX, diffY)
-      object.body.velocity.normalize().scale(200)
+      object.body.velocity.normalize().scale(100)
     }
     return {
       el: ref(null),
