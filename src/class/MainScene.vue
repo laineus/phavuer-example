@@ -1,7 +1,7 @@
 <template>
   <Scene name="MainScene" :autoStart="true" @create="create" @update="update">
     <Text>aaaaa</Text>
-    <Player ref="player" />
+    <Player ref="player" :initialX="400" :initialY="300" />
   </Scene>
 </template>
 
