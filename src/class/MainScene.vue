@@ -1,5 +1,5 @@
 <template>
-  <Scene name="MainScene" :autoStart="true" @create="create" @update="update">
+  <Scene :ref="el => scene = el && el.scene" name="MainScene" :autoStart="false" @create="create" @update="update">
     <Sprite :origin="0" texture="forest" />
     <Text>Score: {{ String(score).padStart(5, '0') }}</Text>
     <Player ref="player" :initialX="400" :initialY="300" @shot="v => bullets.push(v)" />
@@ -20,6 +20,7 @@ import Bullet from './Bullet'
 export default {
   components: { Scene, Sprite, Text, Player, Enemy, Bullet },
   setup (props) {
+    const scene = ref(null)
     const player = ref(null)
     const tick = ref(0)
     provide('tick', tick)
@@ -31,11 +32,17 @@ export default {
     const enemyDestroy = (id) => {
       score.value += 100
       enemies.remove(id)
+      scene.value.scene.start('TitleScene')
     }
     const create = (scene) => {
       console.log('created', scene)
+      tick.value = 0
+      score.value = 0
+      enemies.clear()
+      bullets.clear()
     }
     const update = (scene) => {
+      if (!player.value) return
       tick.value++
       const activePointer = scene.input.manager.pointers.find(v => v.isDown)
       if (activePointer) {
@@ -46,6 +53,7 @@ export default {
       }
     }
     return {
+      scene,
       create,
       update,
       score,

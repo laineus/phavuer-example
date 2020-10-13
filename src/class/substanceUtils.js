@@ -28,4 +28,7 @@ export class Repository {
     const i = this.list.findIndex(v => v.id === id)
     this.list.splice(i, 1)
   }
+  clear () {
+    this.list.splice(0)
+  }
 }
