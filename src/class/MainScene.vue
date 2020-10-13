@@ -3,7 +3,7 @@
     <Sprite :origin="0" texture="forest" />
     <Text>Score: {{ String(score).padStart(5, '0') }}</Text>
     <Player ref="player" :initialX="400" :initialY="300" @shot="v => bullets.push(v)" />
-    <Enemy v-for="v in enemies.list" :key="v.id" :ref="v.register" :initialX="v.item.x" :initialY="v.item.y" @destroy="enemyDestroy" :target="player" />
+    <Enemy v-for="v in enemies.list" :key="v.id" :ref="v.register" :initialX="v.item.x" :initialY="v.item.y" @destroy="enemyDestroy(v.id)" :target="player" />
     <Bullet v-for="v in bullets.list" :key="v.id" :ref="v.register" :initialX="v.item.x" :initialY="v.item.y" :r="v.item.r" :depth="1000" @destroy="bullets.remove(v.id)" />
   </Scene>
 </template>
@@ -32,10 +32,9 @@ export default {
     const enemyDestroy = (id) => {
       score.value += 100
       enemies.remove(id)
-      scene.value.scene.start('TitleScene')
+      // scene.value.scene.start('TitleScene')
     }
     const create = (scene) => {
-      console.log('created', scene)
       tick.value = 0
       score.value = 0
       enemies.clear()
@@ -48,8 +47,9 @@ export default {
       if (activePointer) {
         player.value.setTargetPosition(activePointer.x, activePointer.y)
       }
-      if (tick.value % 5000 === 10) {
-        enemies.push({ x: 700, y: 300 })
+      const freq = Math.max(200 - Math.round(tick.value / 15), 50)
+      if (tick.value % freq === 10) {
+        enemies.push({ x: Math.chance() ? 0 : 960, y: Math.randomInt(50, 490) })
       }
     }
     return {
