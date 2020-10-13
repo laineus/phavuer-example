@@ -11,6 +11,7 @@ const option = {
   height: config.HEIGHT,
   scene: {
     create () {
+      Phaser.BlendModes.OVERLAY = this.sys.game.renderer.addBlendMode([WebGLRenderingContext.SRC_ALPHA, WebGLRenderingContext.ONE], WebGLRenderingContext.FUNC_ADD)
       createPhavuerApp(this.game, App)
     },
     preload () {

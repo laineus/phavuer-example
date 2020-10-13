@@ -12,9 +12,9 @@ import FrameAnimator from './FrameAnimator'
 export default {
   components: { Container, Sprite },
   props: ['initialX', 'initialY'],
-  setup (props) {
+  setup (props, context) {
     const scene = inject('scene')
-    const data = reactive({ frame: 0, flipX: false, depth: 0, tgtX: props.initialX, tgtY: props.initialY })
+    const data = reactive({ tick: 0, frame: 0, flipX: false, depth: 0, tgtX: props.initialX, tgtY: props.initialY })
     const animator = new FrameAnimator([{ key: 'walk', start: 3, end: 5, duration: 20 }])
     const setTargetPosition = (x, y) => {
       data.tgtX = x
@@ -25,7 +25,8 @@ export default {
       scene.physics.world.enable(object)
       object.body.setDrag(300)
     }
-    const update = object => {
+    const update = (object, time) => {
+      data.tick++
       data.depth = object.y
       data.frame = animator.play('walk')
       const diffX = data.tgtX - object.x
@@ -38,6 +39,9 @@ export default {
       data.flipX = diffX < 0
       object.body.setVelocity(diffX, diffY)
       object.body.velocity.normalize().scale(200)
+      if (data.tick % 30 === 0) {
+        context.emit('shot', object.x, object.y)
+      }
     }
     return {
       el: ref(null),

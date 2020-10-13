@@ -21,7 +21,7 @@ export default {
     'origin', 'originX', 'originY',
     'scale', 'scaleX', 'scaleY',
     'depth',
-    'alpha',
+    'alpha', 'blendMode',
     'texture', 'frame',
     'flipX', 'flipY'
   ]
