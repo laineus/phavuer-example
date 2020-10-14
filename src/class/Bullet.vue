@@ -16,18 +16,20 @@ export default {
     const data = reactive({ frame: 0 })
     const animator = new FrameAnimator([{ key: 'fire', start: 0, end: 2, duration: 5 }])
     const create = object => {
-      object.setPosition(props.initialX, props.initialY)
+      const addX = Math.cos(props.r)
+      const addY = Math.sin(props.r)
+      object.setPosition(props.initialX + addX * 30, props.initialY + addY * 30)
       object.setBlendMode(Phaser.BlendModes.OVERLAY)
       object.setRotation(props.r)
       scene.physics.world.enable(object)
-      object.body.setVelocity(Math.cos(props.r), Math.sin(props.r))
+      object.body.setVelocity(addX, addY)
       object.body.velocity.normalize().scale(300)
     }
     const update = object => {
       data.frame = animator.play('fire')
       if (overScreen(object, 20)) context.emit('destroy')
       enemies.list.some(enemy => {
-        if (closeTo(object, enemy.el.object)) {
+        if (enemy.el.data.alive && closeTo(object, enemy.el.object)) {
           context.emit('destroy')
           enemy.el.hit()
           return true

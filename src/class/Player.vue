@@ -1,6 +1,6 @@
 <template>
   <Container :ref="el => object = el && el.object" @create="create" @update="update" :depth="data.depth">
-    <Sprite texture="spinel" :frame="data.frame" :flipX="data.flipX" />
+    <Sprite :ref="el => sprite = el && el.object" texture="spinel" :frame="data.frame" :flipX="data.flipX" />
   </Container>
 </template>
 
@@ -9,17 +9,26 @@ import { inject, ref, reactive, computed } from 'vue'
 import Container from '../phavuer/components/Container'
 import Sprite from '../phavuer/components/Sprite'
 import FrameAnimator from './FrameAnimator'
+import { attack } from './substanceUtils'
 export default {
   components: { Container, Sprite },
   props: ['initialX', 'initialY'],
   setup (props, context) {
     const scene = inject('scene')
+    const object = ref(null)
+    const sprite = ref(null)
     const tick = inject('tick')
-    const data = reactive({ frame: 0, flipX: false, depth: 0, tgtX: props.initialX, tgtY: props.initialY })
+    const data = reactive({ hp: 100, lastDamaged: 0, frame: 0, flipX: false, depth: 0, tgtX: props.initialX, tgtY: props.initialY })
     const animator = new FrameAnimator([{ key: 'walk', start: 3, end: 5, duration: 20 }])
     const setTargetPosition = (x, y) => {
       data.tgtX = x
       data.tgtY = y
+    }
+    const hit = (enemy) => {
+      if ((tick.value - data.lastDamaged) < 20) return
+      data.lastDamaged = tick.value
+      attack(enemy, object.value, sprite.value)
+      setTargetPosition(object.x, object.y)
     }
     const create = object => {
       object.setPosition(props.initialX, props.initialY)
@@ -44,11 +53,13 @@ export default {
       object.body.velocity.normalize().scale(200)
     }
     return {
-      object: ref(null),
+      object,
+      sprite,
       data,
       create,
       update,
-      setTargetPosition
+      setTargetPosition,
+      hit
     }
   }
 }

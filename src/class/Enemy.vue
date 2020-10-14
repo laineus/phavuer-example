@@ -9,6 +9,7 @@ import { inject, ref, reactive, computed } from 'vue'
 import Container from '../phavuer/components/Container'
 import Sprite from '../phavuer/components/Sprite'
 import FrameAnimator from './FrameAnimator'
+import { dieAnimation } from './substanceUtils'
 export default {
   components: { Container, Sprite },
   props: ['initialX', 'initialY', 'target'],
@@ -16,7 +17,7 @@ export default {
     const scene = inject('scene')
     const object = ref(null)
     const sprite = ref(null)
-    const data = reactive({ frame: 0, flipX: false, depth: 0 })
+    const data = reactive({ alive: true, frame: 0, flipX: false, depth: 0 })
     const targetPosition = reactive({ x: props.initialX, y: props.initialY })
     const animator = new FrameAnimator([{ key: 'walk', start: 6, end: 8, duration: 20 }])
     const setTargetPosition = (x, y) => {
@@ -24,12 +25,8 @@ export default {
       targetPosition.y = y
     }
     const hit = () => {
-      sprite.value.setTint(0xFF0000)
-      scene.add.tween({
-        targets: sprite.value, duration: 150, ease: 'Power2',
-        scaleX: 1.3, scaleY: 1.3, alpha: 0.2,
-        onComplete: () => context.emit('destroy')
-      })
+      data.alive = false
+      dieAnimation(sprite.value).then(() => context.emit('destroy'))
     }
     const create = object => {
       object.setPosition(props.initialX, props.initialY)
@@ -42,8 +39,9 @@ export default {
       const diffX = props.target.object.x - object.x
       const diffY = props.target.object.y - object.y
       const distance = Math.hypot(diffX, diffY)
-      if (distance < 10) {
+      if (distance < 10 || !data.alive) {
         object.body.setVelocity(0, 0)
+        if (data.alive) props.target.hit(object)
         return
       }
       data.flipX = diffX < 0

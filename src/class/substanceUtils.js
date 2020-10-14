@@ -32,3 +32,22 @@ export class Repository {
     this.list.splice(0)
   }
 }
+
+export const dieAnimation = obj => {
+  return new Promise(resolve => {
+    obj.setTint(0xFF0000)
+    obj.scene.add.tween({
+      targets: obj, duration: 150, ease: 'Power2',
+      scaleX: 1.3, scaleY: 1.3, alpha: 0.2,
+      onComplete: resolve
+    })
+  })
+}
+
+export const attack = (base, target, sprite = null) => {
+  sprite = sprite || target
+  sprite.setTint(0xFF0000)
+  setTimeout(() => sprite.setTint(0xFFFFFF), 200)
+  const r = Math.atan2(target.y - base.y, target.x - base.x)
+  target.setPosition(target.x + Math.cos(r) * 20, target.y + Math.cos(r) * 20)
+}
