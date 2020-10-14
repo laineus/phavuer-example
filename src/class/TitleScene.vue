@@ -21,6 +21,7 @@ export default {
     }
     const onClick = () => {
       scene.value.scene.start('MainScene')
+      scene.value.scene.start('UIScene')
     }
     return {
       scene,

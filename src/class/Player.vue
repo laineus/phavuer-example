@@ -1,6 +1,7 @@
 <template>
   <Container :ref="el => object = el && el.object" @create="create" @update="update" :depth="data.depth">
     <Sprite :ref="el => sprite = el && el.object" texture="spinel" :frame="data.frame" :flipX="data.flipX" />
+    <Gauge :y="-30" :value="data.hp / 100" />
   </Container>
 </template>
 
@@ -8,10 +9,11 @@
 import { inject, ref, reactive, computed } from 'vue'
 import Container from '../phavuer/components/Container'
 import Sprite from '../phavuer/components/Sprite'
+import Gauge from './Gauge'
 import FrameAnimator from './FrameAnimator'
-import { attack } from './substanceUtils'
+import { attack, dieAnimation } from './substanceUtils'
 export default {
-  components: { Container, Sprite },
+  components: { Container, Sprite, Gauge },
   props: ['initialX', 'initialY'],
   setup (props, context) {
     const scene = inject('scene')
@@ -25,10 +27,15 @@ export default {
       data.tgtY = y
     }
     const hit = (enemy) => {
-      if ((tick.value - data.lastDamaged) < 20) return
+      if ((tick.value - data.lastDamaged) < 20 || data.hp <= 0) return
       data.lastDamaged = tick.value
+      data.hp -= 10
       attack(enemy, object.value, sprite.value)
-      setTargetPosition(object.x, object.y)
+      setTargetPosition(object.value.x, object.value.y)
+      if (data.hp > 0) return
+      dieAnimation(sprite.value).then(() => {
+        context.emit('dead')
+      })
     }
     const create = object => {
       object.setPosition(props.initialX, props.initialY)
