@@ -2,7 +2,7 @@
   <Scene :ref="el => scene = el && el.scene" name="MainScene" :autoStart="false" @create="create" @update="update">
     <Sprite :origin="0" texture="forest" />
     <Player ref="player" :initialX="400" :initialY="300" @shot="v => bullets.push(v)" @dead="onDead" />
-    <Enemy v-for="v in enemies.list" :key="v.id" :ref="v.register" :initialX="v.item.x" :initialY="v.item.y" @destroy="enemyDestroy(v.id)" :target="player" />
+    <Enemy v-for="v in enemies.list" :key="v.id" :ref="v.register" :initialX="v.item.x" :initialY="v.item.y" @destroy="enemyDestroy(v)" :target="player" />
     <Bullet v-for="v in bullets.list" :key="v.id" :ref="v.register" :initialX="v.item.x" :initialY="v.item.y" :r="v.item.r" :depth="1000" @destroy="bullets.remove(v.id)" />
   </Scene>
 </template>
@@ -27,9 +27,10 @@ export default {
     const enemies = new Repository()
     provide('bullets', bullets)
     provide('enemies', enemies)
-    const enemyDestroy = (id) => {
-      score.value += 100
-      enemies.remove(id)
+    const enemyDestroy = (v) => {
+      score.value += v.el.data.type.speed
+      console.log(v.el.data.type.speed)
+      enemies.remove(v.id)
     }
     const create = (scene) => {
       tick.value = 0

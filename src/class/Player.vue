@@ -28,7 +28,7 @@ export default {
     const hit = (enemy) => {
       if ((tick.value - data.lastDamaged) < 20 || data.hp <= 0) return
       data.lastDamaged = tick.value
-      data.hp -= 10
+      data.hp -= 20
       attack(enemy, object.value, sprite.value)
       setTargetPosition(object.value.x, object.value.y)
       if (data.hp > 0) return
@@ -47,7 +47,7 @@ export default {
       const diffY = data.tgtY - object.y
       const r = Math.atan2(-diffY, -diffX)
       data.frame = animator.play(getAnimationKey8(r, 8))
-      if (tick.value % 30 === 0) {
+      if (tick.value % 25 === 0) {
         context.emit('shot', { x: object.x, y: object.y, r })
       }
       const distance = Math.hypot(diffY, diffY)
