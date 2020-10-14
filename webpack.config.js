@@ -24,7 +24,7 @@ module.exports = (_env, argv) => ({
         loader: 'babel-loader',
         options: {
           presets: [
-            ['env', { targets: { node: 'current' } }]
+            ['@babel/preset-env']
           ]
         }
       },
