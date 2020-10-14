@@ -5,8 +5,7 @@
 <script>
 import { inject, ref, reactive } from 'vue'
 import Sprite from '../phavuer/components/Sprite'
-import FrameAnimator from './FrameAnimator'
-import { overScreen, closeTo } from './substanceUtils'
+import { overScreen, closeTo, FrameAnimator } from './substanceUtils'
 export default {
   components: { Sprite },
   props: ['initialX', 'initialY', 'r'],

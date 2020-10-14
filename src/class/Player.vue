@@ -1,6 +1,6 @@
 <template>
   <Container :ref="el => object = el && el.object" @create="create" @update="update" :depth="data.depth">
-    <Sprite :ref="el => sprite = el && el.object" texture="spinel" :frame="data.frame" :flipX="data.flipX" />
+    <Sprite :ref="el => sprite = el && el.object" texture="spinel" :frame="data.frame" />
     <Gauge :y="-30" :value="data.hp / 100" />
   </Container>
 </template>
@@ -10,8 +10,7 @@ import { inject, ref, reactive, computed } from 'vue'
 import Container from '../phavuer/components/Container'
 import Sprite from '../phavuer/components/Sprite'
 import Gauge from './Gauge'
-import FrameAnimator from './FrameAnimator'
-import { attack, dieAnimation } from './substanceUtils'
+import { attack, dieAnimation, FrameAnimator, getAnimationKey8, WALK_ANIMATIONS_8 } from './substanceUtils'
 export default {
   components: { Container, Sprite, Gauge },
   props: ['initialX', 'initialY'],
@@ -21,7 +20,7 @@ export default {
     const sprite = ref(null)
     const tick = inject('tick')
     const data = reactive({ hp: 100, lastDamaged: 0, frame: 0, flipX: false, depth: 0, tgtX: props.initialX, tgtY: props.initialY })
-    const animator = new FrameAnimator([{ key: 'walk', start: 3, end: 5, duration: 20 }])
+    const animator = new FrameAnimator(WALK_ANIMATIONS_8)
     const setTargetPosition = (x, y) => {
       data.tgtX = x
       data.tgtY = y
@@ -44,18 +43,18 @@ export default {
     }
     const update = (object, time) => {
       data.depth = object.y
-      data.frame = animator.play('walk')
       const diffX = data.tgtX - object.x
       const diffY = data.tgtY - object.y
+      const r = Math.atan2(-diffY, -diffX)
+      data.frame = animator.play(getAnimationKey8(r, 8))
       if (tick.value % 30 === 0) {
-        context.emit('shot', { x: object.x, y: object.y, r: Math.atan2(-diffY, -diffX) })
+        context.emit('shot', { x: object.x, y: object.y, r })
       }
       const distance = Math.hypot(diffY, diffY)
       if (distance < 10) {
         object.body.setVelocity(0, 0)
         return
       }
-      data.flipX = diffX < 0
       object.body.setVelocity(diffX, diffY)
       object.body.velocity.normalize().scale(200)
     }
