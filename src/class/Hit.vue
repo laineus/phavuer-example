@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { inject, ref, reactive, computed } from 'vue'
+import { inject } from 'vue'
 import Sprite from '../phavuer/components/Sprite'
 export default {
   components: { Sprite },

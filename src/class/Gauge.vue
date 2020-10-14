@@ -6,7 +6,6 @@
 </template>
 
 <script>
-import { reactive, toRefs, onMounted } from 'vue'
 import Container from '../phavuer/components/Container'
 import Rectangle from '../phavuer/components/Rectangle'
 export default {

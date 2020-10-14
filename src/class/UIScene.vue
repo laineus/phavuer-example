@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { inject, ref, reactive, onMounted } from 'vue'
+import { inject, ref, reactive } from 'vue'
 import { Repository } from './substanceUtils'
 import Scene from '../phavuer/components/Scene'
 import Text from '../phavuer/components/Text'

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { inject, ref, reactive, computed } from 'vue'
+import { inject, ref, reactive } from 'vue'
 import Container from '../phavuer/components/Container'
 import Sprite from '../phavuer/components/Sprite'
 import { dieAnimation, FrameAnimator, getAnimationKey4, WALK_ANIMATIONS_4 } from './substanceUtils'
@@ -21,14 +21,8 @@ export default {
     const scene = inject('scene')
     const object = ref(null)
     const sprite = ref(null)
-
     const data = reactive({ alive: true, frame: 0, depth: 0, type: TYPES.random() })
-    const targetPosition = reactive({ x: props.initialX, y: props.initialY })
     const animator = new FrameAnimator(WALK_ANIMATIONS_4)
-    const setTargetPosition = (x, y) => {
-      targetPosition.x = x
-      targetPosition.y = y
-    }
     const hit = () => {
       data.alive = false
       dieAnimation(sprite.value).then(() => context.emit('destroy'))
@@ -58,7 +52,6 @@ export default {
       data,
       create,
       update,
-      setTargetPosition,
       hit
     }
   }

@@ -44,7 +44,7 @@ export default {
       if (activePointer) {
         player.value.setTargetPosition(activePointer.x, activePointer.y)
       }
-      const freq = Math.max(200 - Math.round(tick.value / 15), 50)
+      const freq = Math.max(200 - Math.round(tick.value / 15), 40)
       if (tick.value % freq === 10) {
         enemies.push({ x: Math.chance() ? 0 : 960, y: Math.randomInt(50, 490) })
       }
