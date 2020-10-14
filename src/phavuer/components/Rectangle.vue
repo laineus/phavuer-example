@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { inject, reactive } from 'vue'
+import { inject } from 'vue'
 import { initGameObject } from '../index.js'
 export default {
   setup (props, context) {
@@ -11,7 +11,7 @@ export default {
     class Rectangle extends Phaser.GameObjects.Rectangle {
       preUpdate () {}
     }
-    const object = reactive(new Rectangle(scene, props.x, props.y, props.width, props.height))
+    const object = new Rectangle(scene, props.x, props.y, props.width, props.height)
     initGameObject(object, props, context)
     return { object }
   },

@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { inject, reactive, watch } from 'vue'
+import { inject, watch } from 'vue'
 import { initGameObject } from '../index.js'
 export default {
   setup (props, context) {
@@ -12,7 +12,7 @@ export default {
     class Text extends Phaser.GameObjects.Text {
       preUpdate () {}
     }
-    const object = reactive(new Text(scene, props.x, props.y, getInnerText()))
+    const object = new Text(scene, props.x, props.y, getInnerText())
     watch(getInnerText, v => object.setText(v))
     initGameObject(object, props, context)
     return { object }

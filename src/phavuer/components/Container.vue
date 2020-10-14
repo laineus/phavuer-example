@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { provide, inject, reactive } from 'vue'
+import { provide, inject } from 'vue'
 import { initGameObject } from '../index.js'
 export default {
   setup (props, context) {
@@ -11,7 +11,7 @@ export default {
     class Container extends Phaser.GameObjects.Container {
       preUpdate () {}
     }
-    const object = reactive(new Container(scene))
+    const object = new Container(scene)
     initGameObject(object, props, context)
     provide('container', object)
     return { object }
