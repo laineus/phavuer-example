@@ -29,7 +29,6 @@ export default {
     provide('enemies', enemies)
     const enemyDestroy = (v) => {
       score.value += v.el.data.type.speed
-      console.log(v.el.data.type.speed)
       enemies.remove(v.id)
     }
     const create = (scene) => {

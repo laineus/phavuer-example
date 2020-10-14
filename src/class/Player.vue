@@ -2,6 +2,7 @@
   <Container :ref="el => object = el && el.object" @create="create" @update="update" :depth="data.depth">
     <Sprite :ref="el => sprite = el && el.object" texture="spinel" :frame="data.frame" />
     <Gauge :y="-30" :value="data.hp / 100" />
+    <Hit v-if="data.showHit" @end="data.showHit = false" :x="data.hitX" :y="data.hitY" />
   </Container>
 </template>
 
@@ -10,16 +11,17 @@ import { inject, ref, reactive, computed } from 'vue'
 import Container from '../phavuer/components/Container'
 import Sprite from '../phavuer/components/Sprite'
 import Gauge from './Gauge'
+import Hit from './Hit'
 import { attack, dieAnimation, FrameAnimator, getAnimationKey8, WALK_ANIMATIONS_8 } from './substanceUtils'
 export default {
-  components: { Container, Sprite, Gauge },
+  components: { Container, Sprite, Gauge, Hit },
   props: ['initialX', 'initialY'],
   setup (props, context) {
     const scene = inject('scene')
     const object = ref(null)
     const sprite = ref(null)
     const tick = inject('tick')
-    const data = reactive({ hp: 100, lastDamaged: 0, frame: 0, flipX: false, depth: 0, tgtX: props.initialX, tgtY: props.initialY })
+    const data = reactive({ hp: 100, lastDamaged: 0, frame: 0, flipX: false, depth: 0, tgtX: props.initialX, tgtY: props.initialY, showHit: false, hitX: 0, hitY: 0 })
     const animator = new FrameAnimator(WALK_ANIMATIONS_8)
     const setTargetPosition = (x, y) => {
       data.tgtX = x
@@ -31,6 +33,9 @@ export default {
       data.hp -= 20
       attack(enemy, object.value, sprite.value)
       setTargetPosition(object.value.x, object.value.y)
+      data.showHit = true
+      data.hitX = (enemy.x - object.value.x) / 2
+      data.hitY = (enemy.y - object.value.y) / 2
       if (data.hp > 0) return
       dieAnimation(sprite.value).then(() => {
         context.emit('dead')
