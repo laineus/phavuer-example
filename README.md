@@ -1,6 +1,8 @@
 # Phavuer example game
 
-Phavuer https://github.com/laineus/phavuer
+This is an example shooter that written in [Phavuer](https://github.com/laineus/phavuer)
+
+-> [Play](https://demo.laineus.com/phavuer-example/)
 
 # Run
 
