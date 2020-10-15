@@ -6,8 +6,7 @@
 </template>
 
 <script>
-import Container from '../phavuer/components/Container'
-import Rectangle from '../phavuer/components/Rectangle'
+import { Container, Rectangle } from 'phavuer'
 export default {
   components: { Container, Rectangle },
   props: ['value'],

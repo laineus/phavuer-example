@@ -7,10 +7,8 @@
 
 <script>
 import { inject, ref, reactive } from 'vue'
+import { Scene, Text, Rectangle } from 'phavuer'
 import { Repository } from './substanceUtils'
-import Scene from '../phavuer/components/Scene'
-import Text from '../phavuer/components/Text'
-import Rectangle from '../phavuer/components/Rectangle'
 export default {
   components: { Scene, Rectangle, Text },
   props: ['result'],

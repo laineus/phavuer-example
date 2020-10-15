@@ -4,7 +4,7 @@
 
 <script>
 import { inject, ref, reactive } from 'vue'
-import Image from '../phavuer/components/Image'
+import { Image } from 'phavuer'
 import { overScreen, closeTo, FrameAnimator } from './substanceUtils'
 export default {
   components: { Image },

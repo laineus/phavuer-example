@@ -8,8 +8,7 @@
 
 <script>
 import { inject, ref, reactive } from 'vue'
-import Container from '../phavuer/components/Container'
-import Image from '../phavuer/components/Image'
+import { Container, Image } from 'phavuer'
 import Gauge from './Gauge'
 import Hit from './Hit'
 import { attack, dieAnimation, FrameAnimator, getAnimationKey8, WALK_ANIMATIONS_8 } from './substanceUtils'

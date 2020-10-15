@@ -2,7 +2,7 @@ import 'phaser'
 import './util/extendNativeClassFunctions'
 import loadAssets from './util/loadAssets'
 import config from './data/config'
-import { createPhavuerApp } from './phavuer/index'
+import { createPhavuerApp } from 'phavuer'
 import App from './class/App'
 
 const option = {

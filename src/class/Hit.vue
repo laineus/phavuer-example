@@ -4,7 +4,7 @@
 
 <script>
 import { inject } from 'vue'
-import Image from '../phavuer/components/Image'
+import { Image } from 'phavuer'
 export default {
   components: { Image },
   setup (props, context) {

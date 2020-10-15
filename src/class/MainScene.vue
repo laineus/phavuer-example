@@ -10,8 +10,7 @@
 <script>
 import { ref, inject, provide, reactive, onMounted } from 'vue'
 import { Repository } from './substanceUtils'
-import Scene from '../phavuer/components/Scene'
-import Image from '../phavuer/components/Image'
+import { Scene, Image } from 'phavuer'
 import Player from './Player'
 import Enemy from './Enemy'
 import Bullet from './Bullet'

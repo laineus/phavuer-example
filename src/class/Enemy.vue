@@ -6,8 +6,7 @@
 
 <script>
 import { inject, ref, reactive } from 'vue'
-import Container from '../phavuer/components/Container'
-import Image from '../phavuer/components/Image'
+import { Container, Image } from 'phavuer'
 import { dieAnimation, FrameAnimator, getAnimationKey4, WALK_ANIMATIONS_4 } from './substanceUtils'
 const TYPES = [
   { texture: 'kinoko', speed: 100 },

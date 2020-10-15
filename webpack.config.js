@@ -8,8 +8,7 @@ const packageJson = require('./package.json')
 const { VueLoaderPlugin } = require('vue-loader')
 module.exports = (_env, argv) => ({
   entry: {
-    app: './src/index.js',
-    vendor: ['phaser', 'vue']
+    app: './src/index.js'
   },
   output: {
     path: path.resolve(__dirname, 'public/js'),
