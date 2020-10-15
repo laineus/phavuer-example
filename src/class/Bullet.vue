@@ -1,13 +1,13 @@
 <template>
-  <Sprite :ref="el => object = el && el.object" texture="fire" :frame="data.frame" @create="create" @update="update" />
+  <Image :ref="el => object = el && el.object" texture="fire" :frame="data.frame" @create="create" @update="update" />
 </template>
 
 <script>
 import { inject, ref, reactive } from 'vue'
-import Sprite from '../phavuer/components/Sprite'
+import Image from '../phavuer/components/Image'
 import { overScreen, closeTo, FrameAnimator } from './substanceUtils'
 export default {
-  components: { Sprite },
+  components: { Image },
   props: ['initialX', 'initialY', 'r'],
   setup (props, context) {
     const scene = inject('scene')

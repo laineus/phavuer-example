@@ -1,13 +1,13 @@
 <template>
   <Container :ref="el => object = el && el.object" @create="create" @update="update" :depth="data.depth">
-    <Sprite :ref="el => sprite = el && el.object" :texture="data.type.texture" :frame="data.frame" />
+    <Image :ref="el => sprite = el && el.object" :texture="data.type.texture" :frame="data.frame" />
   </Container>
 </template>
 
 <script>
 import { inject, ref, reactive } from 'vue'
 import Container from '../phavuer/components/Container'
-import Sprite from '../phavuer/components/Sprite'
+import Image from '../phavuer/components/Image'
 import { dieAnimation, FrameAnimator, getAnimationKey4, WALK_ANIMATIONS_4 } from './substanceUtils'
 const TYPES = [
   { texture: 'kinoko', speed: 100 },
@@ -15,7 +15,7 @@ const TYPES = [
   { texture: 'boar', speed: 150 },
 ]
 export default {
-  components: { Container, Sprite },
+  components: { Container, Image },
   props: ['initialX', 'initialY', 'target'],
   setup (props, context) {
     const scene = inject('scene')

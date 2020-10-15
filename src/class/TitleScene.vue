@@ -1,6 +1,6 @@
 <template>
   <Scene :ref="el => scene = el && el.scene" name="TitleScene" :autoStart="true">
-    <Sprite texture="title" :origin="0" @pointerdown="onClick" />
+    <Image texture="title" :origin="0" @pointerdown="onClick" />
   </Scene>
 </template>
 
@@ -8,9 +8,9 @@
 import { ref } from 'vue'
 import { Repository } from './substanceUtils'
 import Scene from '../phavuer/components/Scene'
-import Sprite from '../phavuer/components/Sprite'
+import Image from '../phavuer/components/Image'
 export default {
-  components: { Scene, Sprite },
+  components: { Scene, Image },
   setup (props) {
     const scene = ref(null)
     const onClick = () => {

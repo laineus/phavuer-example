@@ -1,12 +1,12 @@
 <template>
-  <Sprite texture="hit" @create="create" />
+  <Image texture="hit" @create="create" />
 </template>
 
 <script>
 import { inject } from 'vue'
-import Sprite from '../phavuer/components/Sprite'
+import Image from '../phavuer/components/Image'
 export default {
-  components: { Sprite },
+  components: { Image },
   setup (props, context) {
     const scene = inject('scene')
     const create = object => {

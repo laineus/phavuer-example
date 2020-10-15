@@ -1,6 +1,6 @@
 <template>
   <Container :ref="el => object = el && el.object" @create="create" @update="update" :depth="data.depth">
-    <Sprite :ref="el => sprite = el && el.object" texture="spinel" :frame="data.frame" />
+    <Image :ref="el => sprite = el && el.object" texture="spinel" :frame="data.frame" />
     <Gauge :y="-30" :value="data.hp / 100" />
     <Hit v-if="data.hitVisible" @end="data.hitVisible = false" :x="data.hitX" :y="data.hitY" />
   </Container>
@@ -9,12 +9,12 @@
 <script>
 import { inject, ref, reactive } from 'vue'
 import Container from '../phavuer/components/Container'
-import Sprite from '../phavuer/components/Sprite'
+import Image from '../phavuer/components/Image'
 import Gauge from './Gauge'
 import Hit from './Hit'
 import { attack, dieAnimation, FrameAnimator, getAnimationKey8, WALK_ANIMATIONS_8 } from './substanceUtils'
 export default {
-  components: { Container, Sprite, Gauge, Hit },
+  components: { Container, Image, Gauge, Hit },
   props: ['initialX', 'initialY'],
   setup (props, context) {
     const scene = inject('scene')

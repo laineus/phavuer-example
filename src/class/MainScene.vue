@@ -1,6 +1,6 @@
 <template>
   <Scene :ref="el => scene = el && el.scene" name="MainScene" :autoStart="false" @create="create" @update="update">
-    <Sprite :origin="0" texture="forest" />
+    <Image :origin="0" texture="forest" />
     <Player ref="player" :initialX="400" :initialY="300" @shot="v => bullets.push(v)" @dead="onDead" />
     <Enemy v-for="v in enemies.list" :key="v.id" :ref="v.register" :initialX="v.item.x" :initialY="v.item.y" @destroy="enemyDestroy(v)" :target="player" />
     <Bullet v-for="v in bullets.list" :key="v.id" :ref="v.register" :initialX="v.item.x" :initialY="v.item.y" :r="v.item.r" :depth="1000" @destroy="bullets.remove(v.id)" />
@@ -11,12 +11,12 @@
 import { ref, inject, provide, reactive, onMounted } from 'vue'
 import { Repository } from './substanceUtils'
 import Scene from '../phavuer/components/Scene'
-import Sprite from '../phavuer/components/Sprite'
+import Image from '../phavuer/components/Image'
 import Player from './Player'
 import Enemy from './Enemy'
 import Bullet from './Bullet'
 export default {
-  components: { Scene, Sprite, Player, Enemy, Bullet },
+  components: { Scene, Image, Player, Enemy, Bullet },
   setup (props, context) {
     const scene = ref(null)
     const player = ref(null)
