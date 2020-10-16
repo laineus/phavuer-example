@@ -1,4 +1,4 @@
-import config from '../data/config'
+import config from './config'
 // Number instance methods
 Object.defineProperty(Number.prototype, 'half', {
   get () { return this / 2 }

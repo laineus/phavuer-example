@@ -1,5 +1,5 @@
 import { reactive } from 'vue'
-import config from '../data/config'
+import config from '../config'
 
 export const overScreen = (object, padding = 0) => {
   return object.x < -padding || object.x > config.WIDTH + padding || object.y < -padding || object.y > config.HEIGHT + padding 
