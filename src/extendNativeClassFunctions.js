@@ -6,7 +6,7 @@ Object.defineProperty(Number.prototype, 'half', {
 Object.defineProperty(Number.prototype, 'toArray', {
   value () { return [...Array(this).keys()] }
 })
-Object.defineProperty(Number.prototype, 'toColorString', {
+Object.defineProperty(Number.prototype, 'colorString', {
   get () { return `#${this.toString(16)}` }
 })
 Object.defineProperty(Number.prototype, 'byRight', {
@@ -28,11 +28,8 @@ Object.defineProperty(String.prototype, 'width', {
     }).reduce((sum, v) => sum + v, 0)
   }
 })
-Object.defineProperty(String.prototype, 'toColorInt', {
+Object.defineProperty(String.prototype, 'colorInt', {
   get () { return parseInt(this.slice(1), 16) }
-})
-Object.defineProperty(String.prototype, 'upperCase', {
-  get () { return this.replace(/^[a-z]/g, v => v.toUpperCase()) }
 })
 // Array instance methods
 Object.defineProperty(Array.prototype, 'random', {
@@ -44,7 +41,7 @@ Object.defineProperty(Array.prototype, 'count', {
 // Math class methods
 Math.sum = (...args) => args.reduce((accumulator, current) => accumulator + current)
 Math.average = (...args) => Math.sum(...args) / args.length
-Math.fix = (value, min, max) => Math.min(Math.max(value, min), max)
+Math.inRange = (value, min, max) => Math.min(Math.max(value, min), max)
 Math.randomInt = (min, max) => Math.floor(Math.random() * (max + 1 - min)) + min
 Math.chance = (percent = 0.5) => percent > Math.random()
 // Object class method
