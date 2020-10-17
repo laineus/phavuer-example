@@ -1,4 +1,3 @@
-import { reactive } from 'vue'
 import config from '../config'
 
 export const overScreen = (object, padding = 0) => {
@@ -7,30 +6,6 @@ export const overScreen = (object, padding = 0) => {
 
 export const closeTo = (base, target, distance = 35) => {
   return Math.hypot(target.y - base.y, target.x - base.x) < distance
-}
-
-export class Repository {
-  constructor () {
-    this.list = reactive([])
-    this.lastId = 0
-  }
-  push (item) {
-    this.lastId++
-    const row = {
-      id: this.lastId,
-      item,
-      el: null,
-      register: data => row.el = data
-    }
-    this.list.push(row)
-  }
-  remove (id) {
-    const i = this.list.findIndex(v => v.id === id)
-    this.list.splice(i, 1)
-  }
-  clear () {
-    this.list.splice(0)
-  }
 }
 
 export const dieAnimation = obj => {

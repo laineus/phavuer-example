@@ -2,14 +2,13 @@
   <Scene ref="scene" name="GameScene" :autoStart="false" @create="create" @update="update">
     <Image :origin="0" texture="forest" />
     <Player ref="player" :initialX="400" :initialY="300" @shot="v => bullets.push(v)" @dead="onDead" />
-    <Enemy v-for="v in enemies.list" :key="v.id" :ref="v.register" :initialX="v.item.x" :initialY="v.item.y" @destroy="enemyDestroy(v)" :target="player" />
-    <Bullet v-for="v in bullets.list" :key="v.id" :ref="v.register" :initialX="v.item.x" :initialY="v.item.y" :r="v.item.r" :depth="1000" @destroy="bullets.remove(v.id)" />
+    <Enemy v-for="v in enemies" :key="v.id" :ref="e => v.ref = e" :initialX="v.x" :initialY="v.y" @destroy="enemyDestroy(v)" :target="player" />
+    <Bullet v-for="(v, i) in bullets" :key="v.id" :initialX="v.x" :initialY="v.y" :r="v.r" :depth="1000" @destroy="bullets.splice(i, 1)" />
   </Scene>
 </template>
-
+scenescene
 <script>
 import { ref, inject, provide, reactive, onMounted } from 'vue'
-import { Repository } from './substanceUtils'
 import { refScene, Scene, Image } from 'phavuer'
 import Player from './Player'
 import Enemy from './Enemy'
@@ -22,19 +21,20 @@ export default {
     const tick = ref(0)
     provide('tick', tick)
     const score = inject('score')
-    const bullets = new Repository()
-    const enemies = new Repository()
+    const bullets = ref([])
+    const enemies = ref([])
     provide('bullets', bullets)
     provide('enemies', enemies)
     const enemyDestroy = (v) => {
-      score.value += v.el.data.type.speed
-      enemies.remove(v.id)
+      score.value += v.ref.data.type.speed
+      const i = enemies.value.findIndex(enemy => enemy === v)
+      enemies.value.splice(i, 1)
     }
     const create = (scene) => {
       tick.value = 0
       score.value = 0
-      enemies.clear()
-      bullets.clear()
+      enemies.value.splice(0)
+      bullets.value.splice(0)
     }
     const update = (scene) => {
       if (!player.value) return
@@ -45,7 +45,7 @@ export default {
       }
       const freq = Math.max(200 - Math.round(tick.value / 15), 40)
       if (tick.value % freq === 10) {
-        enemies.push({ x: Math.chance() ? 0 : 960, y: Math.randomInt(50, 490) })
+        enemies.value.push({ id: Symbol(), x: Math.chance() ? 0 : 960, y: Math.randomInt(50, 490), ref: ref(null) })
       }
     }
     const onDead = () => {

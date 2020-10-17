@@ -8,7 +8,6 @@
 <script>
 import { inject, ref, reactive } from 'vue'
 import { refScene, Scene, Text, Rectangle } from 'phavuer'
-import { Repository } from './substanceUtils'
 export default {
   components: { Scene, Rectangle, Text },
   props: ['result'],
