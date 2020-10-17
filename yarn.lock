@@ -4253,10 +4253,10 @@ phaser@^3.22:
     imports-loader "^0.8.0"
     path "^0.12.7"
 
-phavuer@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/phavuer/-/phavuer-0.2.1.tgz#99719f3bfe610599ac6d603cc3aab2e8677b8143"
-  integrity sha512-2+4gtrSQOgCzH8MHt5SnF4vZ1Buh+xC4ce0174ojFJaYBOfs6Lh1/6kbczQMe13b0w1mRULbv6sqIywkY+jyqw==
+phavuer@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/phavuer/-/phavuer-0.2.2.tgz#0938dfe0c7390bba7866348264969a9877aba5c7"
+  integrity sha512-IcjbSKvggt7MY9MRDU1GptgL+SRj8UIo+oSt07+EW2iMmgkWdoDCmzSnP6Pv9JDR/7y/CaY0IC4qepxiAec43g==
 
 pify@^2.0.0:
   version "2.3.0"
