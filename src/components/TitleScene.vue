@@ -1,17 +1,15 @@
 <template>
-  <Scene :ref="el => scene = el && el.scene" name="TitleScene" :autoStart="true">
+  <Scene ref="scene" name="TitleScene" :autoStart="true">
     <Image texture="title" :origin="0" @pointerdown="onClick" />
   </Scene>
 </template>
 
 <script>
-import { ref } from 'vue'
-import { Repository } from './substanceUtils'
-import { Scene, Image } from 'phavuer'
+import { refScene, Scene, Image } from 'phavuer'
 export default {
   components: { Scene, Image },
   setup (props) {
-    const scene = ref(null)
+    const scene = refScene(null)
     const onClick = () => {
       scene.value.scene.start('GameScene')
       scene.value.scene.start('UIScene')

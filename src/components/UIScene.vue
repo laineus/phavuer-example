@@ -1,5 +1,5 @@
 <template>
-  <Scene :ref="el => scene = el && el.scene" name="UIScene" :autoStart="false" @create="create">
+  <Scene ref="scene" name="UIScene" :autoStart="false" @create="create">
     <Rectangle v-if="props.result" :origin="0" :width="960" :height="540" fillColor="0x000000" :alpha="bg.alpha" @create="onResult" @pointerdown="onClick" />
     <Text :visible="scoreText.visible" :depth="100" :x="scoreText.x" :y="scoreText.y" :origin="scoreText.origin" :style="{ fontSize: scoreText.size, fontStyle: 'bold' }">Score: {{ String(score).padStart(5, '0') }}</Text>
   </Scene>
@@ -7,13 +7,13 @@
 
 <script>
 import { inject, ref, reactive } from 'vue'
-import { Scene, Text, Rectangle } from 'phavuer'
+import { refScene, Scene, Text, Rectangle } from 'phavuer'
 import { Repository } from './substanceUtils'
 export default {
   components: { Scene, Rectangle, Text },
   props: ['result'],
   setup (props, context) {
-    const scene = ref(null)
+    const scene = refScene(null)
     const canReset = ref(false)
     const score = inject('score')
     const bg = reactive({ alpha: 0 })

@@ -1,5 +1,5 @@
 <template>
-  <Scene :ref="el => scene = el && el.scene" name="GameScene" :autoStart="false" @create="create" @update="update">
+  <Scene ref="scene" name="GameScene" :autoStart="false" @create="create" @update="update">
     <Image :origin="0" texture="forest" />
     <Player ref="player" :initialX="400" :initialY="300" @shot="v => bullets.push(v)" @dead="onDead" />
     <Enemy v-for="v in enemies.list" :key="v.id" :ref="v.register" :initialX="v.item.x" :initialY="v.item.y" @destroy="enemyDestroy(v)" :target="player" />
@@ -10,14 +10,14 @@
 <script>
 import { ref, inject, provide, reactive, onMounted } from 'vue'
 import { Repository } from './substanceUtils'
-import { Scene, Image } from 'phavuer'
+import { refScene, Scene, Image } from 'phavuer'
 import Player from './Player'
 import Enemy from './Enemy'
 import Bullet from './Bullet'
 export default {
   components: { Scene, Image, Player, Enemy, Bullet },
   setup (props, context) {
-    const scene = ref(null)
+    const scene = refScene(null)
     const player = ref(null)
     const tick = ref(0)
     provide('tick', tick)
