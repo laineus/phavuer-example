@@ -1,7 +1,7 @@
 <template>
   <div>
     <TitleScene />
-    <MainScene @gameOver="onGameOver" />
+    <GameScene @gameOver="onGameOver" />
     <UIScene :result="result" @reset="onReset" />
   </div>
 </template>
@@ -9,20 +9,20 @@
 <script>
 import { provide, inject, ref } from 'vue'
 import TitleScene from './TitleScene'
-import MainScene from './MainScene'
+import GameScene from './GameScene'
 import UIScene from './UIScene'
 export default {
-  components: { TitleScene, MainScene, UIScene },
+  components: { TitleScene, GameScene, UIScene },
   setup () {
     const game = inject('game')
     const score = ref(0)
     const result = ref(false)
     const onGameOver = () => {
-      game.scene.pause('MainScene')
+      game.scene.pause('GameScene')
       result.value = true
     }
     const onReset = () => {
-      game.scene.stop('MainScene')
+      game.scene.stop('GameScene')
       game.scene.stop('UIScene')
       game.scene.start('TitleScene')
       result.value = false

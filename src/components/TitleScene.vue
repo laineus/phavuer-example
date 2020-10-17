@@ -13,7 +13,7 @@ export default {
   setup (props) {
     const scene = ref(null)
     const onClick = () => {
-      scene.value.scene.start('MainScene')
+      scene.value.scene.start('GameScene')
       scene.value.scene.start('UIScene')
     }
     return {
