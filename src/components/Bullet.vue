@@ -1,10 +1,10 @@
 <template>
-  <Image :ref="el => object = el && el.object" texture="fire" :frame="data.frame" @create="create" @update="update" />
+  <Image ref="object" texture="fire" :frame="data.frame" @create="create" @update="update" />
 </template>
 
 <script>
-import { inject, ref, reactive } from 'vue'
-import { Image } from 'phavuer'
+import { inject, reactive } from 'vue'
+import { refObj, Image } from 'phavuer'
 import { overScreen, closeTo, FrameAnimator } from './substanceUtils'
 export default {
   components: { Image },
@@ -37,7 +37,7 @@ export default {
       })
     }
     return {
-      object: ref(null),
+      object: refObj(null),
       data,
       create,
       update

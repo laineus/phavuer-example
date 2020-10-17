@@ -1,12 +1,12 @@
 <template>
-  <Container :ref="el => object = el && el.object" @create="create" @update="update" :depth="data.depth">
-    <Image :ref="el => sprite = el && el.object" :texture="data.type.texture" :frame="data.frame" />
+  <Container ref="object" @create="create" @update="update" :depth="data.depth">
+    <Image ref="sprite" :texture="data.type.texture" :frame="data.frame" />
   </Container>
 </template>
 
 <script>
-import { inject, ref, reactive } from 'vue'
-import { Container, Image } from 'phavuer'
+import { inject, reactive } from 'vue'
+import { refObj, Container, Image } from 'phavuer'
 import { dieAnimation, FrameAnimator, getAnimationKey4, WALK_ANIMATIONS_4 } from './substanceUtils'
 const TYPES = [
   { texture: 'kinoko', speed: 100 },
@@ -18,8 +18,8 @@ export default {
   props: ['initialX', 'initialY', 'target'],
   setup (props, context) {
     const scene = inject('scene')
-    const object = ref(null)
-    const sprite = ref(null)
+    const object = refObj(null)
+    const sprite = refObj(null)
     const data = reactive({ alive: true, frame: 0, depth: 0, type: TYPES.random() })
     const animator = new FrameAnimator(WALK_ANIMATIONS_4)
     const hit = () => {
