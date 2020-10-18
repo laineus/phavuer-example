@@ -14,7 +14,7 @@ export default {
     const scene = inject('scene')
     const enemies = inject('enemies')
     const data = reactive({ frame: 0 })
-    const animator = new FrameAnimator([{ key: 'fire', start: 0, end: 2, duration: 5 }])
+    const animator = new FrameAnimator([{ key: 'fire', frames: [0, 1, 2], duration: 5 }])
     const create = object => {
       const addX = Math.cos(props.r)
       const addY = Math.sin(props.r)

@@ -1,7 +1,7 @@
 import config from '../config'
 
 export const overScreen = (object, padding = 0) => {
-  return object.x < -padding || object.x > config.WIDTH + padding || object.y < -padding || object.y > config.HEIGHT + padding 
+  return object.x < -padding || object.x > config.WIDTH + padding || object.y < -padding || object.y > config.HEIGHT + padding
 }
 
 export const closeTo = (base, target, distance = 35) => {
@@ -31,34 +31,42 @@ export class FrameAnimator {
   constructor (settings) {
     this.patterns = {}
     this.tick = 0
+    this.lastPlayedKey = null
     settings.forEach(setting => this.registerAnim(setting))
   }
-  registerAnim ({ key, start, end, duration }) {
-    const count = (end - start) + 1
-    this.patterns[key] = tick => start + (Math.floor(tick / duration) % count)
+  registerAnim ({ key, frames, duration }) {
+    this.patterns[key] = tick => {
+      const i = Math.floor(tick / duration) % frames.length
+      return frames[i]
+    }
   }
   play (key) {
-    this.tick++
+    if (key !== this.lastPlayedKey) {
+      this.tick = 0
+      this.lastPlayedKey = key
+    } else {
+      this.tick++
+    }
     return this.patterns[key](this.tick)
   }
 }
 
 export const WALK_ANIMATIONS_4 = [
-  { key: 'AS', start: 0, end: 2, duration: 20 },
-  { key: 'AW', start: 3, end: 5, duration: 20 },
-  { key: 'DS', start: 6, end: 8, duration: 20 },
-  { key: 'DW', start: 9, end: 11, duration: 20 }
+  { key: 'AS', frames: [0, 1, 2], duration: 20 },
+  { key: 'AW', frames: [3, 4, 5], duration: 20 },
+  { key: 'DS', frames: [6, 7, 8], duration: 20 },
+  { key: 'DW', frames: [9, 10, 11], duration: 20 }
 ]
 
 export const WALK_ANIMATIONS_8 = [
-  { key: 'S', start: 0, end: 2, duration: 20 },
-  { key: 'AS', start: 3, end: 5, duration: 20 },
-  { key: 'A', start: 6, end: 8, duration: 20 },
-  { key: 'DS', start: 9, end: 11, duration: 20 },
-  { key: 'D', start: 12, end: 14, duration: 20 },
-  { key: 'AW', start: 15, end: 17, duration: 20 },
-  { key: 'W', start: 18, end: 20, duration: 20 },
-  { key: 'DW', start: 21, end: 23, duration: 20 }
+  { key: 'S', frames: [0, 1, 2], duration: 20 },
+  { key: 'AS', frames: [3, 4, 5], duration: 20 },
+  { key: 'A', frames: [6, 7, 8], duration: 20 },
+  { key: 'DS', frames: [9, 10, 11], duration: 20 },
+  { key: 'D', frames: [12, 13, 14], duration: 20 },
+  { key: 'AW', frames: [15, 16, 17], duration: 20 },
+  { key: 'W', frames: [18, 19, 20], duration: 20 },
+  { key: 'DW', frames: [21, 22, 23], duration: 20 }
 ]
 
 export const getAnimationKey4 = r => {
