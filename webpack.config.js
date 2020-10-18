@@ -28,6 +28,12 @@ module.exports = (_env, argv) => ({
         }
       },
       {
+        test: /\.(js|vue)$/,
+        exclude: '/node_modules/',
+        loader: 'eslint-loader',
+        enforce: 'pre'
+      },
+      {
         test: /\.vue$/,
         loader: 'vue-loader'
       }
