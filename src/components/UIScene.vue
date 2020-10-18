@@ -11,6 +11,7 @@ import { refScene, Scene, Text, Rectangle } from 'phavuer'
 export default {
   components: { Scene, Rectangle, Text },
   props: ['result'],
+  emits: ['reset'],
   setup (props, context) {
     const scene = refScene(null)
     const canReset = ref(false)

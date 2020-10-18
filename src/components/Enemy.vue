@@ -11,11 +11,12 @@ import { dieAnimation, FrameAnimator, getAnimationKey4, WALK_ANIMATIONS_4 } from
 const TYPES = [
   { texture: 'kinoko', speed: 100 },
   { texture: 'flower', speed: 60 },
-  { texture: 'boar', speed: 150 },
+  { texture: 'boar', speed: 150 }
 ]
 export default {
   components: { Container, Image },
   props: ['initialX', 'initialY', 'target'],
+  emits: ['destroy'],
   setup (props, context) {
     const scene = inject('scene')
     const object = refObj(null)

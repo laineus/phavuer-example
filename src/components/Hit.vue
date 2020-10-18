@@ -7,6 +7,7 @@ import { inject } from 'vue'
 import { Image } from 'phavuer'
 export default {
   components: { Image },
+  emits: ['end'],
   setup (props, context) {
     const scene = inject('scene')
     const create = object => {

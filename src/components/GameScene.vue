@@ -8,13 +8,14 @@
 </template>
 scenescene
 <script>
-import { ref, inject, provide, reactive, onMounted } from 'vue'
+import { ref, inject, provide } from 'vue'
 import { refScene, Scene, Image } from 'phavuer'
 import Player from './Player'
 import Enemy from './Enemy'
 import Bullet from './Bullet'
 export default {
   components: { Scene, Image, Player, Enemy, Bullet },
+  emits: ['gameOver'],
   setup (props, context) {
     const scene = refScene(null)
     const player = ref(null)
@@ -45,7 +46,7 @@ export default {
       }
       const freq = Math.max(200 - Math.round(tick.value / 15), 40)
       if (tick.value % freq === 10) {
-        enemies.value.push({ id: Symbol(), x: Math.chance() ? 0 : 960, y: Math.randomInt(50, 490), ref: ref(null) })
+        enemies.value.push({ id: Symbol('id'), x: Math.chance() ? 0 : 960, y: Math.randomInt(50, 490), ref: ref(null) })
       }
     }
     const onDead = () => {

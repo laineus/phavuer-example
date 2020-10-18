@@ -13,7 +13,9 @@ module.exports = {
     'vue/max-attributes-per-line': 0,
     'vue/attributes-order': 0,
     'vue/attribute-hyphenation': 0,
-    'vue/require-prop-types': 0
+    'vue/require-prop-types': 0,
+    'vue/custom-event-name-casing': 0,
+    'vue/singleline-html-element-content-newline': 0
   },
   globals: {
     location: true,

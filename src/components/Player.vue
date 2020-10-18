@@ -15,6 +15,7 @@ import { attack, dieAnimation, FrameAnimator, getAnimationKey8, WALK_ANIMATIONS_
 export default {
   components: { Container, Image, Gauge, Hit },
   props: ['initialX', 'initialY'],
+  emits: ['dead', 'shot'],
   setup (props, context) {
     const scene = inject('scene')
     const object = refObj(null)
@@ -52,7 +53,7 @@ export default {
       const r = Math.atan2(-diffY, -diffX)
       data.frame = animator.play(getAnimationKey8(r, 8))
       if (tick.value % 25 === 0) {
-        context.emit('shot', { id: Symbol(), x: object.x, y: object.y, r })
+        context.emit('shot', { id: Symbol('id'), x: object.x, y: object.y, r })
       }
       const distance = Math.hypot(diffY, diffY)
       if (distance < 10) {

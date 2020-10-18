@@ -9,6 +9,7 @@ import { overScreen, closeTo, FrameAnimator } from './substanceUtils'
 export default {
   components: { Image },
   props: ['initialX', 'initialY', 'r'],
+  emits: ['destroy'],
   setup (props, context) {
     const scene = inject('scene')
     const enemies = inject('enemies')
