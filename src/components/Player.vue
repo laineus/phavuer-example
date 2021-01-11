@@ -1,5 +1,5 @@
 <template>
-  <Container ref="object" @create="create" @update="update" :depth="data.depth">
+  <Container ref="object" @create="create" :depth="data.depth">
     <Image ref="sprite" texture="spinel" :frame="data.frame" />
     <Gauge :y="-30" :value="data.hp / 100" />
     <Hit v-if="data.hitVisible" @end="data.hitVisible = false" :x="data.hitX" :y="data.hitY" />
@@ -8,7 +8,7 @@
 
 <script>
 import { inject, reactive } from 'vue'
-import { refObj, Container, Image } from 'phavuer'
+import { refObj, Container, Image, onPreUpdate } from 'phavuer'
 import Gauge from './Gauge'
 import Hit from './Hit'
 import { attack, dieAnimation, FrameAnimator, getAnimationKey8, WALK_ANIMATIONS_8 } from './substanceUtils'
@@ -46,29 +46,28 @@ export default {
       scene.physics.world.enable(object)
       object.body.setDrag(300)
     }
-    const update = (object, time) => {
+    onPreUpdate(() => {
       data.depth = object.y
-      const diffX = data.tgtX - object.x
-      const diffY = data.tgtY - object.y
+      const diffX = data.tgtX - object.value.x
+      const diffY = data.tgtY - object.value.y
       const r = Math.atan2(-diffY, -diffX)
       data.frame = animator.play(getAnimationKey8(r, 8))
       if (tick.value % 25 === 0) {
-        context.emit('shot', { id: Symbol('id'), x: object.x, y: object.y, r })
+        context.emit('shot', { id: Symbol('id'), x: object.value.x, y: object.value.y, r })
       }
       const distance = Math.hypot(diffY, diffY)
       if (distance < 10) {
-        object.body.setVelocity(0, 0)
+        object.value.body.setVelocity(0, 0)
         return
       }
-      object.body.setVelocity(diffX, diffY)
-      object.body.velocity.normalize().scale(200)
-    }
+      object.value.body.setVelocity(diffX, diffY)
+      object.value.body.velocity.normalize().scale(200)
+    })
     return {
       object,
       sprite,
       data,
       create,
-      update,
       setTargetPosition,
       hit
     }

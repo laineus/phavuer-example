@@ -1,12 +1,12 @@
 <template>
-  <Container ref="object" @create="create" @update="update" :depth="data.depth">
+  <Container ref="object" @create="create" :depth="data.depth">
     <Image ref="sprite" :texture="data.type.texture" :frame="data.frame" />
   </Container>
 </template>
 
 <script>
 import { inject, reactive } from 'vue'
-import { refObj, Container, Image } from 'phavuer'
+import { refObj, Container, Image, onPreUpdate } from 'phavuer'
 import { dieAnimation, FrameAnimator, getAnimationKey4, WALK_ANIMATIONS_4 } from './substanceUtils'
 const TYPES = [
   { texture: 'kinoko', speed: 100 },
@@ -32,26 +32,25 @@ export default {
       scene.physics.world.enable(object)
       object.body.setDrag(300)
     }
-    const update = object => {
-      data.depth = object.y
-      const diffX = props.target.object.x - object.x
-      const diffY = props.target.object.y - object.y
+    onPreUpdate(() => {
+      data.depth = object.value.y
+      const diffX = props.target.object.x - object.value.x
+      const diffY = props.target.object.y - object.value.y
       data.frame = animator.play(getAnimationKey4(Math.atan2(diffY, diffX)))
       const distance = Math.hypot(diffX, diffY)
       if (distance < 10 || !data.alive) {
-        object.body.setVelocity(0, 0)
-        if (data.alive) props.target.hit(object)
+        object.value.body.setVelocity(0, 0)
+        if (data.alive) props.target.hit(object.value)
         return
       }
-      object.body.setVelocity(diffX, diffY)
-      object.body.velocity.normalize().scale(data.type.speed)
-    }
+      object.value.body.setVelocity(diffX, diffY)
+      object.value.body.velocity.normalize().scale(data.type.speed)
+    })
     return {
       object,
       sprite,
       data,
       create,
-      update,
       hit
     }
   }

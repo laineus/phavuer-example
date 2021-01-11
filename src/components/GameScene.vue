@@ -6,7 +6,7 @@
     <Bullet v-for="(v, i) in bullets" :key="v.id" :initialX="v.x" :initialY="v.y" :r="v.r" :depth="1000" @destroy="bullets.splice(i, 1)" />
   </Scene>
 </template>
-scenescene
+
 <script>
 import { ref, inject, provide } from 'vue'
 import { refScene, Scene, Image } from 'phavuer'
