@@ -1,7 +1,7 @@
 <template>
   <Container ref="object" @create="create" :depth="data.depth">
     <Image ref="sprite" texture="spinel" :frame="data.frame" />
-    <Gauge :y="-30" :value="data.hp / 100" />
+    <Gauge :y="-30" :value="data.hp / maxHp" />
     <Hit v-if="data.hitVisible" @end="data.hitVisible = false" :x="data.hitX" :y="data.hitY" />
   </Container>
 </template>
@@ -70,7 +70,8 @@ export default {
       data,
       create,
       setTargetPosition,
-      hit
+      hit,
+      maxHp: config.GAME.PLAYER_HP
     }
   }
 }

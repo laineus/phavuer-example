@@ -46,7 +46,7 @@ export default {
         player.value.setTargetPosition(activePointer.x, activePointer.y)
       }
       const freq = Math.max(config.GAME.ENEMY_FREQ_BEGIN - Math.round(tick.value / 15), config.GAME.ENEMY_FREQ_END)
-      if (tick.value % freq === 10) {
+      if (tick.value % freq === 5) {
         enemies.value.push({ id: Symbol('id'), x: Math.chance() ? 0 : 960, y: Math.randomInt(50, 490), ref: ref(null) })
       }
     }
