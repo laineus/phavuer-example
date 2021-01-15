@@ -11,6 +11,7 @@ import { inject, reactive } from 'vue'
 import { refObj, Container, Image, onPreUpdate } from 'phavuer'
 import Gauge from './Gauge'
 import Hit from './Hit'
+import config from '../config'
 import { attack, dieAnimation, FrameAnimator, getAnimationKey8, WALK_ANIMATIONS_8 } from './substanceUtils'
 export default {
   components: { Container, Image, Gauge, Hit },
@@ -21,7 +22,7 @@ export default {
     const object = refObj(null)
     const sprite = refObj(null)
     const tick = inject('tick')
-    const data = reactive({ hp: 100, lastDamaged: 0, frame: 0, flipX: false, depth: 0, tgtX: props.initialX, tgtY: props.initialY, hitVisible: false, hitX: 0, hitY: 0 })
+    const data = reactive({ hp: config.GAME.PLAYER_HP, lastDamaged: 0, frame: 0, flipX: false, depth: 0, tgtX: props.initialX, tgtY: props.initialY, hitVisible: false, hitX: 0, hitY: 0 })
     const animator = new FrameAnimator(WALK_ANIMATIONS_8)
     const setTargetPosition = (x, y) => {
       data.tgtX = x
@@ -52,7 +53,7 @@ export default {
       const diffY = data.tgtY - object.value.y
       const r = Math.atan2(-diffY, -diffX)
       data.frame = animator.play(getAnimationKey8(r, 8))
-      if (tick.value % 25 === 0) {
+      if (tick.value % config.GAME.FIRES_INTERVAL === 0) {
         context.emit('shot', { id: Symbol('id'), x: object.value.x, y: object.value.y, r })
       }
       const distance = Math.hypot(diffY, diffY)

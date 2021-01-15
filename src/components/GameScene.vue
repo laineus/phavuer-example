@@ -13,6 +13,7 @@ import { refScene, Scene, Image } from 'phavuer'
 import Player from './Player'
 import Enemy from './Enemy'
 import Bullet from './Bullet'
+import config from '../config'
 export default {
   components: { Scene, Image, Player, Enemy, Bullet },
   emits: ['gameOver'],
@@ -44,7 +45,7 @@ export default {
       if (activePointer) {
         player.value.setTargetPosition(activePointer.x, activePointer.y)
       }
-      const freq = Math.max(200 - Math.round(tick.value / 15), 40)
+      const freq = Math.max(config.GAME.ENEMY_FREQ_BEGIN - Math.round(tick.value / 15), config.GAME.ENEMY_FREQ_END)
       if (tick.value % freq === 10) {
         enemies.value.push({ id: Symbol('id'), x: Math.chance() ? 0 : 960, y: Math.randomInt(50, 490), ref: ref(null) })
       }
