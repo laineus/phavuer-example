@@ -4465,10 +4465,10 @@ pbkdf2@^3.0.3:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-phaser-assets-webpack-plugin@^1.0.9:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/phaser-assets-webpack-plugin/-/phaser-assets-webpack-plugin-1.1.0.tgz#88e5dee18671eae969dbe468294949c036e48c81"
-  integrity sha512-mdgaBglu52YHOi8iqzq0neXnttSkFHLdg5+wlAzeWCvO/Tt0PxVh5cY+dduoW9fa7mfZsoBCKLPl6U/9xvnpZQ==
+phaser-assets-webpack-plugin@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/phaser-assets-webpack-plugin/-/phaser-assets-webpack-plugin-2.0.0.tgz#35dd5290b0b39e447ec9875fb5649123d8e10c6c"
+  integrity sha512-s5GaDOkyTfx3LMzlYv9sXNT5qdjU32K7wt+1c4iPiwhiyJXm+Py91sbaJRmYTopuz2ijqCjXo4O4s+kZikcqrg==
   dependencies:
     image-size "^0.9.1"
 
@@ -4482,10 +4482,10 @@ phaser@^3.52.0:
     imports-loader "^1.2.0"
     path "^0.12.7"
 
-phavuer@^0.7.2:
-  version "0.7.2"
-  resolved "https://registry.yarnpkg.com/phavuer/-/phavuer-0.7.2.tgz#5c31d1712919c2199597f81b17cdc9ce2482d054"
-  integrity sha512-jg1eNOCZNJZz6EKplSDsuCYz6x7RZOTMd+VaR/qzzM505bTzH612VsPKyhhUmpW/5T6UEIwFVm8S4alyWER54Q==
+phavuer@^0.7.3:
+  version "0.7.3"
+  resolved "https://registry.yarnpkg.com/phavuer/-/phavuer-0.7.3.tgz#717187fdbff77d45a4ec6386b5c7da5bdcc83335"
+  integrity sha512-+4j4yHU64tj1a0piZNIIvDbFFTN5VEOtA2+XrGEYTHVplYWe/wQ3f3w/6jM+rPj2PPIwJ5jq8NG8lYd0fsNMEw==
 
 picomatch@^2.0.4, picomatch@^2.2.1:
   version "2.2.2"

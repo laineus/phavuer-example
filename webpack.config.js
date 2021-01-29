@@ -53,7 +53,7 @@ module.exports = (_env, argv) => ({
     }),
     new PhaserAssetsWebpackPlugin([
       { type: 'image', prefix: '', dir: '/img', rule: /^\w+\.png$/ },
-    ], { useAbsoluteUrl: false })
+    ], { output: 'src/assets.json' })
   ],
   resolve: {
     extensions: ['.js', '.vue']
