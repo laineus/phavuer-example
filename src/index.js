@@ -1,4 +1,5 @@
 import 'phaser'
+import { createApp } from 'vue'
 import './extendNativeClassFunctions'
 import loadAssets from './loadAssets'
 import config from './config'
@@ -12,7 +13,7 @@ const option = {
   scene: {
     create () {
       Phaser.BlendModes.OVERLAY = this.sys.game.renderer.addBlendMode([WebGLRenderingContext.SRC_ALPHA, WebGLRenderingContext.ONE], WebGLRenderingContext.FUNC_ADD)
-      createPhavuerApp(this.game, App)
+      createPhavuerApp(this.game, createApp(App))
     },
     preload () {
       loadAssets(this)
