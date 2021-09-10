@@ -8,9 +8,9 @@
 
 <script>
 import { provide, inject, ref } from 'vue'
-import TitleScene from './TitleScene'
-import GameScene from './GameScene'
-import UIScene from './UIScene'
+import TitleScene from './TitleScene.vue'
+import GameScene from './GameScene.vue'
+import UIScene from './UIScene.vue'
 export default {
   components: { TitleScene, GameScene, UIScene },
   setup () {

@@ -9,8 +9,8 @@
 <script>
 import { inject, reactive } from 'vue'
 import { refObj, Container, Image, onPreUpdate } from 'phavuer'
-import Gauge from './Gauge'
-import Hit from './Hit'
+import Gauge from './Gauge.vue'
+import Hit from './Hit.vue'
 import config from '../config'
 import { attack, dieAnimation, FrameAnimator, getAnimationKey8, WALK_ANIMATIONS_8 } from './substanceUtils'
 export default {

@@ -10,9 +10,9 @@
 <script>
 import { ref, inject, provide } from 'vue'
 import { refScene, Scene, Image } from 'phavuer'
-import Player from './Player'
-import Enemy from './Enemy'
-import Bullet from './Bullet'
+import Player from './Player.vue'
+import Enemy from './Enemy.vue'
+import Bullet from './Bullet.vue'
 import config from '../config'
 export default {
   components: { Scene, Image, Player, Enemy, Bullet },
