@@ -5,3 +5,4 @@ ignore
 /src/assets.json
 /public/js/*.bundle.js
 /public/img/tilesets/extruded/*.png
+/dist
