@@ -3338,6 +3338,13 @@ image-size@^0.9.1:
   dependencies:
     queue "6.0.2"
 
+image-size@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/image-size/-/image-size-1.0.0.tgz#58b31fe4743b1cec0a0ac26f5c914d3c5b2f0750"
+  integrity sha512-JLJ6OwBfO1KcA+TvJT+v8gbE6iWbj24LyDNFgFEN0lzegn6cC6a/p3NIDaepMsJjQjlUWqIC7wJv8lBFxPNjcw==
+  dependencies:
+    queue "6.0.2"
+
 import-fresh@^3.0.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/import-fresh/-/import-fresh-3.3.0.tgz#37162c25fcb9ebaa2e6e53d5b4d88ce17d9e0c2b"
@@ -4574,6 +4581,13 @@ pbkdf2@^3.0.3:
     ripemd160 "^2.0.1"
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
+
+phaser-assets-loader@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/phaser-assets-loader/-/phaser-assets-loader-1.0.0.tgz#d817d14670aa761378db4a7d984f48ec6c639104"
+  integrity sha512-pni7iuxEU9hV+ewtgEHzyEP62QarmX965qLqtlXQ1ubff9uWzdG8Yyomq4wm8QVWJUBk+twG9baJ6Ao80d4IaQ==
+  dependencies:
+    image-size "^1.0.0"
 
 phaser-assets-webpack-plugin@^2.0.0:
   version "2.0.0"
