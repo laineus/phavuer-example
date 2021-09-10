@@ -8,7 +8,7 @@ const vitePhaserAssetsLoader = config => {
   return {
     name: 'phaser-assets-loader',
     config (_, { mode }) {
-      const { exportJson, watch } = phaserAssetsLoader(config, { projectRoot: __dirname })
+      const { exportJson, watch } = phaserAssetsLoader(config)
       exportJson()
       if (mode === 'development') {
         watch()

@@ -27,7 +27,7 @@
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-standard": "^5.0.0",
     "eslint-plugin-vue": "^7.17.0",
-    "phaser-assets-loader": "^1.0.0",
+    "phaser-assets-loader": "^1.0.1",
     "vite": "^2.5.6"
   }
 }
