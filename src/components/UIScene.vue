@@ -1,6 +1,6 @@
 <template>
   <Scene ref="scene" name="UIScene" :autoStart="false" @create="create">
-    <Rectangle v-if="props.result" :origin="0" :width="960" :height="540" fillColor="0x000000" :alpha="bg.alpha" @create="onResult" @pointerdown="onClick" />
+    <Rectangle v-if="props.result" :origin="0" :width="960" :height="540" :fillColor="0x000000" :alpha="bg.alpha" @create="onResult" @pointerdown="onClick" />
     <Text :visible="scoreText.visible" :text="`Score: ${String(score).padStart(5, '0')}`" :depth="100" :x="scoreText.x" :y="scoreText.y" :origin="scoreText.origin" :style="{ fontSize: scoreText.size, fontStyle: 'bold' }" />
   </Scene>
 </template>

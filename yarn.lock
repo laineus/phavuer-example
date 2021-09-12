@@ -1416,10 +1416,10 @@ phaser@^3.55.2:
     eventemitter3 "^4.0.7"
     path "^0.12.7"
 
-phavuer@^0.8.4:
-  version "0.8.4"
-  resolved "https://registry.yarnpkg.com/phavuer/-/phavuer-0.8.4.tgz#87bf7cd27992cd30321a6e0a2c5371afdfe48b6f"
-  integrity sha512-Hc3H7bLWpHnhkDqP9BlOebnGzDFmI4cpSbFITh6AbBM7lrWxjai6uO0v2+Y32hv93ZsRQfvJZjzJB3VRbtfhIg==
+phavuer@^0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/phavuer/-/phavuer-0.9.0.tgz#d1e68aeaa824deb1004d22bb3a1b8a18e7cf20bc"
+  integrity sha512-QwHMmCnoGFtnjsEtSvfRgQy6ujPOC9XXMQ2BlkqYgMLQNMrEZmgfJa6WLDJyFys0L3O6Rdrow/56FDbaYP4WRw==
 
 picomatch@^2.2.2:
   version "2.3.0"
