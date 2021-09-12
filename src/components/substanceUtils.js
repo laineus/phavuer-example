@@ -24,7 +24,7 @@ export const attack = (base, target, sprite = null) => {
   sprite.setTint(0xFF0000)
   setTimeout(() => sprite.setTint(0xFFFFFF), 200)
   const r = Math.atan2(target.y - base.y, target.x - base.x)
-  target.setPosition(target.x + Math.cos(r) * 20, target.y + Math.cos(r) * 20)
+  return [target.x + Math.cos(r) * 20, target.y + Math.cos(r) * 20]
 }
 
 export class FrameAnimator {

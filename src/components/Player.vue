@@ -1,5 +1,5 @@
 <template>
-  <Container ref="object" @create="create" :depth="data.depth">
+  <Container ref="object" @create="create" :depth="data.depth" v-model:x="data.x" v-model:y="data.y">
     <Image ref="sprite" texture="spinel" :frame="data.frame" />
     <Gauge :y="-30" :value="data.hp / maxHp" />
     <Hit v-if="data.hitVisible" @end="data.hitVisible = false" :x="data.hitX" :y="data.hitY" />
@@ -22,7 +22,7 @@ export default {
     const object = refObj(null)
     const sprite = refObj(null)
     const tick = inject('tick')
-    const data = reactive({ hp: config.GAME.PLAYER_HP, lastDamaged: 0, frame: 0, flipX: false, depth: 0, tgtX: props.initialX, tgtY: props.initialY, hitVisible: false, hitX: 0, hitY: 0 })
+    const data = reactive({ hp: config.GAME.PLAYER_HP, x: props.initialX, y: props.initialY, lastDamaged: 0, frame: 0, flipX: false, depth: 0, tgtX: props.initialX, tgtY: props.initialY, hitVisible: false, hitX: 0, hitY: 0 })
     const animator = new FrameAnimator(WALK_ANIMATIONS_8)
     const setTargetPosition = (x, y) => {
       data.tgtX = x
@@ -32,8 +32,10 @@ export default {
       if ((tick.value - data.lastDamaged) < 20 || data.hp <= 0) return
       data.lastDamaged = tick.value
       data.hp -= 20
-      attack(enemy, object.value, sprite.value)
-      setTargetPosition(object.value.x, object.value.y)
+      const [newX, newY] = attack(enemy, object.value, sprite.value)
+      data.x = newX
+      data.y = newY
+      setTargetPosition(newX, newY)
       data.hitVisible = true
       data.hitX = (enemy.x - object.value.x) / 2
       data.hitY = (enemy.y - object.value.y) / 2
@@ -43,7 +45,6 @@ export default {
       })
     }
     const create = object => {
-      object.setPosition(props.initialX, props.initialY)
       scene.physics.world.enable(object)
       object.body.setDrag(300)
     }
