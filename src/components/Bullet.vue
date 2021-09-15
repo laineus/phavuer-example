@@ -29,7 +29,7 @@ export default {
       data.frame = animator.play('fire')
       if (overScreen(data, 20)) context.emit('destroy')
       enemies.list.some(enemy => {
-        if (enemy.alive && closeTo(data, enemy.object)) {
+        if (enemy.alive && closeTo(data, enemy)) {
           context.emit('destroy')
           enemy.hit()
           return true

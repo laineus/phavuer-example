@@ -72,10 +72,10 @@ export const WALK_ANIMATIONS_8 = [
 export const getAnimationKey4 = r => {
   const step = Math.PI / 2
   switch (Math.ceil(r / step)) {
+    case 4: return 'DW'
+    case 3: return 'AW'
     case 2: return 'AS'
     case 1: return 'DS'
-    case 0: return 'DW'
-    case -1: return 'AW'
   }
 }
 
