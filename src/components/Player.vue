@@ -1,25 +1,24 @@
 <template>
   <Container :depth="y" v-model:x="x" v-model:y="y">
     <Body :drag="300" :velocityX="velocityX" :velocityY="velocityY" />
-    <Image ref="sprite" texture="spinel" :frame="frame" :tween="dieTween" :tint="dieTween ? 0xFF0000 : undefined" />
+    <Image texture="spinel" :frame="frame" :tween="dieTween" :tint="tint" />
     <Gauge :y="-30" :value="hp / maxHp" />
     <Hit v-if="hitVisible" @end="hitVisible = false" :x="hitX" :y="hitY" />
   </Container>
 </template>
 
 <script>
-import { inject, reactive, toRefs } from 'vue'
-import { refObj, Container, Image, Body, onPreUpdate } from 'phavuer'
+import { computed, inject, reactive, toRefs } from 'vue'
+import { Container, Image, Body, onPreUpdate } from 'phavuer'
 import Gauge from './Gauge.vue'
 import Hit from './Hit.vue'
 import config from '../config'
-import { attack, FrameAnimator, getAnimationKey8, getDieTween, WALK_ANIMATIONS_8 } from './substanceUtils'
+import { FrameAnimator, getAnimationKey8, getDieTween, WALK_ANIMATIONS_8 } from './substanceUtils'
 export default {
   components: { Container, Image, Body, Gauge, Hit },
   props: ['initialX', 'initialY'],
   emits: ['dead', 'shot'],
   setup (props, context) {
-    const sprite = refObj(null)
     const tick = inject('tick')
     const data = reactive({
       hp: config.GAME.PLAYER_HP,
@@ -27,7 +26,7 @@ export default {
       y: props.initialY,
       velocityX: 0,
       velocityY: 0,
-      lastDamaged: 0,
+      lastDamaged: -Infinity,
       frame: 0,
       flipX: false,
       tgtX: props.initialX,
@@ -37,19 +36,21 @@ export default {
       hitY: 0,
       dieTween: null
     })
+    const damage = computed(() => (tick.value - data.lastDamaged) < 20)
+    const tint = computed(() => data.dieTween || damage.value ? 0xFF0000 : undefined)
     const animator = new FrameAnimator(WALK_ANIMATIONS_8)
     const setTargetPosition = (x, y) => {
       data.tgtX = x
       data.tgtY = y
     }
     const hit = (enemy) => {
-      if ((tick.value - data.lastDamaged) < 20 || data.hp <= 0) return
+      if (damage.value || data.hp <= 0) return
       data.lastDamaged = tick.value
       data.hp -= 20
-      const [newX, newY] = attack(enemy, data, sprite.value)
-      data.x = newX
-      data.y = newY
-      setTargetPosition(newX, newY)
+      const vector = new Phaser.Math.Vector2(data.y - enemy.y, data.x - enemy.x).normalize().scale(20)
+      data.x += vector.x
+      data.y += vector.y
+      setTargetPosition(data.x, data.y)
       data.hitVisible = true
       data.hitX = (enemy.x - data.x) / 2
       data.hitY = (enemy.y - data.y) / 2
@@ -74,7 +75,7 @@ export default {
     })
     return {
       ...toRefs(data),
-      sprite,
+      tint,
       setTargetPosition,
       hit,
       maxHp: config.GAME.PLAYER_HP

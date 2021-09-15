@@ -1,7 +1,7 @@
 import config from '../config'
 
-export const overScreen = (object, padding = 0) => {
-  return object.x < -padding || object.x > config.WIDTH + padding || object.y < -padding || object.y > config.HEIGHT + padding
+export const overScreen = ({ x, y }, padding = 0) => {
+  return x < -padding || x > config.WIDTH + padding || y < -padding || y > config.HEIGHT + padding
 }
 
 export const closeTo = (base, target, distance = 35) => {
@@ -14,14 +14,6 @@ export const getDieTween = onComplete => {
     scaleX: 1.3, scaleY: 1.3, alpha: 0.2,
     onComplete
   }
-}
-
-export const attack = (base, target, sprite = null) => {
-  sprite = sprite || target
-  sprite.setTint(0xFF0000)
-  setTimeout(() => sprite.setTint(0xFFFFFF), 200)
-  const r = Math.atan2(target.y - base.y, target.x - base.x)
-  return [target.x + Math.cos(r) * 20, target.y + Math.cos(r) * 20]
 }
 
 export class FrameAnimator {
