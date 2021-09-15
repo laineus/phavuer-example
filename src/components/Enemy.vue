@@ -35,7 +35,7 @@ export default {
       dieAnimation(sprite.value).then(() => context.emit('destroy'))
     }
     onPreUpdate(() => {
-      const vector = new Phaser.Math.Vector2(props.target.object.x - data.x, props.target.object.y - data.y)
+      const vector = new Phaser.Math.Vector2(props.target.x - data.x, props.target.y - data.y)
       data.frame = animator.play(getAnimationKey4(vector.angle()))
       if (vector.length() < 10 || !data.alive) {
         data.velocityX = 0

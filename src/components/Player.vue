@@ -1,5 +1,5 @@
 <template>
-  <Container ref="object" :depth="y" v-model:x="x" v-model:y="y">
+  <Container :depth="y" v-model:x="x" v-model:y="y">
     <Body :drag="300" :velocityX="velocityX" :velocityY="velocityY" />
     <Image ref="sprite" texture="spinel" :frame="frame" />
     <Gauge :y="-30" :value="hp / maxHp" />
@@ -19,7 +19,6 @@ export default {
   props: ['initialX', 'initialY'],
   emits: ['dead', 'shot'],
   setup (props, context) {
-    const object = refObj(null)
     const sprite = refObj(null)
     const tick = inject('tick')
     const data = reactive({
@@ -31,7 +30,6 @@ export default {
       lastDamaged: 0,
       frame: 0,
       flipX: false,
-      depth: 0,
       tgtX: props.initialX,
       tgtY: props.initialY,
       hitVisible: false,
@@ -47,38 +45,36 @@ export default {
       if ((tick.value - data.lastDamaged) < 20 || data.hp <= 0) return
       data.lastDamaged = tick.value
       data.hp -= 20
-      const [newX, newY] = attack(enemy, object.value, sprite.value)
+      const [newX, newY] = attack(enemy, data, sprite.value)
       data.x = newX
       data.y = newY
       setTargetPosition(newX, newY)
       data.hitVisible = true
-      data.hitX = (enemy.x - object.value.x) / 2
-      data.hitY = (enemy.y - object.value.y) / 2
+      data.hitX = (enemy.x - data.x) / 2
+      data.hitY = (enemy.y - data.y) / 2
       if (data.hp > 0) return
       dieAnimation(sprite.value).then(() => {
         context.emit('dead')
       })
     }
     onPreUpdate(() => {
-      data.depth = object.y
-      const diffX = data.tgtX - object.value.x
-      const diffY = data.tgtY - object.value.y
-      const r = Math.atan2(-diffY, -diffX)
+      const vector = new Phaser.Math.Vector2(data.tgtX - data.x, data.tgtY - data.y)
+      const r = Phaser.Math.Angle.Reverse(vector.angle())
       data.frame = animator.play(getAnimationKey8(r, 8))
       if (tick.value % config.GAME.FIRES_INTERVAL === 0) {
-        context.emit('shot', { x: object.value.x, y: object.value.y, r })
+        context.emit('shot', { x: data.x, y: data.y, r })
       }
-      const distance = Math.hypot(diffY, diffY)
-      if (distance < 10) {
-        object.value.body.setVelocity(0, 0)
+      if (vector.length() < 10) {
+        data.velocityX = 0
+        data.velocityY = 0
         return
       }
-      object.value.body.setVelocity(diffX, diffY)
-      object.value.body.velocity.normalize().scale(200)
+      vector.normalize().scale(200)
+      data.velocityX = vector.x
+      data.velocityY = vector.y
     })
     return {
       ...toRefs(data),
-      object,
       sprite,
       setTargetPosition,
       hit,

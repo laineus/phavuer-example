@@ -87,9 +87,9 @@ export const getAnimationKey8 = r => {
     case 2: return 'S'
     case 1: return 'DS'
     case 0: return 'D'
-    case -1: return 'DW'
-    case -2: return 'W'
-    case -3: return 'AW'
-    case -4: return 'A'
+    case 8: return 'DW'
+    case 7: return 'W'
+    case 6: return 'AW'
+    case 5: return 'A'
   }
 }
