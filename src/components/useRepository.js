@@ -2,11 +2,15 @@ import { ref, onBeforeUpdate } from 'vue'
 export default () => {
   const seeds = ref([])
   const list = ref([])
+  const find = id => {
+    return list.value.find(v => v.id === id)
+  }
   const add = data => {
     seeds.value.push({ id: Symbol('id'), ...data })
   }
-  const remove = seed => {
-    seeds.value.splice(seeds.value.indexOf(seed), 1)
+  const remove = id => {
+    const i = seeds.value.findIndex(v => v.id === id)
+    seeds.value.splice(i, 1)
   }
   const register = instance => {
     if (!instance) return
@@ -20,6 +24,7 @@ export default () => {
   return {
     get seeds () { return seeds.value },
     get list () { return list.value },
+    find,
     add,
     remove,
     register,

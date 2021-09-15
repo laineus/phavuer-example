@@ -20,6 +20,7 @@ export default {
   emits: ['destroy'],
   setup (props, context) {
     const data = reactive({
+      id: props.init.id,
       alive: true,
       x: props.init.x,
       y: props.init.y,

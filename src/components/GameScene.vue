@@ -2,8 +2,8 @@
   <Scene ref="scene" name="GameScene" :autoStart="false" @create="create" @update="update">
     <Image :origin="0" texture="forest" />
     <Player ref="player" :initialX="400" :initialY="300" @shot="bullets.add" @dead="onDead" />
-    <Enemy v-for="v in enemies.seeds" :key="v.id" :ref="enemies.register" :init="v" @destroy="enemies.remove(v)" :target="player" />
-    <Bullet v-for="v in bullets.seeds" :key="v.id" :ref="bullets.register" :init="v" :depth="1000" @destroy="bullets.remove(v)" />
+    <Enemy v-for="v in enemies.seeds" :key="v.id" :ref="enemies.register" :init="v" @destroy="onEnemyDestroy(v.id)" :target="player" />
+    <Bullet v-for="v in bullets.seeds" :key="v.id" :ref="bullets.register" :init="v" :depth="1000" @destroy="bullets.remove(v.id)" />
   </Scene>
 </template>
 
@@ -47,11 +47,16 @@ export default {
       }
     }
     const onDead = () => context.emit('gameOver')
+    const onEnemyDestroy = id => {
+      score.value += enemies.find(id)?.type.speed ?? 0
+      enemies.remove(id)
+    }
     return {
       scene,
       create,
       update,
       onDead,
+      onEnemyDestroy,
       score,
       player,
       enemies,

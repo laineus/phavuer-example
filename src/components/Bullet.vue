@@ -17,6 +17,7 @@ export default {
     const cos = Math.cos(props.init.r)
     const sin = Math.sin(props.init.r)
     const data = reactive({
+      id: props.init.id,
       frame: 0,
       x: props.init.x + cos * 30,
       y: props.init.y + sin * 30,
