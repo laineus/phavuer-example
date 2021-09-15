@@ -1,14 +1,14 @@
 <template>
   <Container :depth="y" v-model:x="x" v-model:y="y">
     <Body :drag="300" :velocityX="velocityX" :velocityY="velocityY" />
-    <Image ref="sprite" :texture="type.texture" :frame="frame" />
+    <Image :texture="type.texture" :frame="frame" :tween="dieTween" :tint="dieTween ? 0xFF0000 : undefined" />
   </Container>
 </template>
 
 <script>
 import { reactive, toRefs } from 'vue'
-import { refObj, Container, Image, Body, onPreUpdate } from 'phavuer'
-import { dieAnimation, FrameAnimator, getAnimationKey4, WALK_ANIMATIONS_4 } from './substanceUtils'
+import { Container, Image, Body, onPreUpdate } from 'phavuer'
+import { FrameAnimator, getAnimationKey4, getDieTween, WALK_ANIMATIONS_4 } from './substanceUtils'
 const TYPES = [
   { texture: 'kinoko', speed: 100 },
   { texture: 'flower', speed: 60 },
@@ -19,7 +19,6 @@ export default {
   props: ['init', 'target'],
   emits: ['destroy'],
   setup (props, context) {
-    const sprite = refObj(null)
     const data = reactive({
       alive: true,
       x: props.init.x,
@@ -27,12 +26,13 @@ export default {
       velocityX: 0,
       velocityY: 0,
       frame: 0,
+      dieTween: null,
       type: TYPES.random()
     })
     const animator = new FrameAnimator(WALK_ANIMATIONS_4)
     const hit = () => {
       data.alive = false
-      dieAnimation(sprite.value).then(() => context.emit('destroy'))
+      data.dieTween = getDieTween(() => context.emit('destroy'))
     }
     onPreUpdate(() => {
       const vector = new Phaser.Math.Vector2(props.target.x - data.x, props.target.y - data.y)
@@ -49,7 +49,6 @@ export default {
     })
     return {
       ...toRefs(data),
-      sprite,
       hit
     }
   }

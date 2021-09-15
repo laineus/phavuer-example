@@ -1,7 +1,7 @@
 <template>
   <Container :depth="y" v-model:x="x" v-model:y="y">
     <Body :drag="300" :velocityX="velocityX" :velocityY="velocityY" />
-    <Image ref="sprite" texture="spinel" :frame="frame" />
+    <Image ref="sprite" texture="spinel" :frame="frame" :tween="dieTween" :tint="dieTween ? 0xFF0000 : undefined" />
     <Gauge :y="-30" :value="hp / maxHp" />
     <Hit v-if="hitVisible" @end="hitVisible = false" :x="hitX" :y="hitY" />
   </Container>
@@ -13,7 +13,7 @@ import { refObj, Container, Image, Body, onPreUpdate } from 'phavuer'
 import Gauge from './Gauge.vue'
 import Hit from './Hit.vue'
 import config from '../config'
-import { attack, dieAnimation, FrameAnimator, getAnimationKey8, WALK_ANIMATIONS_8 } from './substanceUtils'
+import { attack, FrameAnimator, getAnimationKey8, getDieTween, WALK_ANIMATIONS_8 } from './substanceUtils'
 export default {
   components: { Container, Image, Body, Gauge, Hit },
   props: ['initialX', 'initialY'],
@@ -34,7 +34,8 @@ export default {
       tgtY: props.initialY,
       hitVisible: false,
       hitX: 0,
-      hitY: 0
+      hitY: 0,
+      dieTween: null
     })
     const animator = new FrameAnimator(WALK_ANIMATIONS_8)
     const setTargetPosition = (x, y) => {
@@ -53,9 +54,7 @@ export default {
       data.hitX = (enemy.x - data.x) / 2
       data.hitY = (enemy.y - data.y) / 2
       if (data.hp > 0) return
-      dieAnimation(sprite.value).then(() => {
-        context.emit('dead')
-      })
+      data.dieTween = getDieTween(() => context.emit('dead'))
     }
     onPreUpdate(() => {
       const vector = new Phaser.Math.Vector2(data.tgtX - data.x, data.tgtY - data.y)

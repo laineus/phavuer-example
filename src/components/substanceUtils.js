@@ -8,15 +8,12 @@ export const closeTo = (base, target, distance = 35) => {
   return Math.hypot(target.y - base.y, target.x - base.x) < distance
 }
 
-export const dieAnimation = obj => {
-  return new Promise(resolve => {
-    obj.setTint(0xFF0000)
-    obj.scene.add.tween({
-      targets: obj, duration: 150, ease: 'Power2',
-      scaleX: 1.3, scaleY: 1.3, alpha: 0.2,
-      onComplete: resolve
-    })
-  })
+export const getDieTween = onComplete => {
+  return {
+    duration: 150, ease: 'Power2',
+    scaleX: 1.3, scaleY: 1.3, alpha: 0.2,
+    onComplete
+  }
 }
 
 export const attack = (base, target, sprite = null) => {
