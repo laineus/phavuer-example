@@ -10,5 +10,12 @@ export default () => {
     list.value.splice(0)
   }
   onBeforeUpdate(() => list.value.splice(0))
-  return { seeds, list, add, remove, register, clear }
+  return {
+    get seeds () { return seeds.value },
+    get list () { return list.value },
+    add,
+    remove,
+    register,
+    clear
+  }
 }

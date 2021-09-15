@@ -3,7 +3,7 @@
     <Image :origin="0" texture="forest" />
     <Player ref="player" :initialX="400" :initialY="300" @shot="bullets.add" @dead="onDead" />
     <Enemy v-for="v in enemies" :key="v.id" :ref="e => v.ref = e" :initialX="v.x" :initialY="v.y" @destroy="enemyDestroy(v)" :target="player" />
-    <Bullet v-for="v in bullets.seeds.value" :key="v.id" :ref="bullets.register" :init="v" :depth="1000" @destroy="bullets.remove(v)" />
+    <Bullet v-for="v in bullets.seeds" :key="v.id" :ref="bullets.register" :init="v" :depth="1000" @destroy="bullets.remove(v)" />
   </Scene>
 </template>
 
