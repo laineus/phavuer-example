@@ -1,29 +1,42 @@
 <template>
   <Scene ref="scene" name="GameScene" :autoStart="false" @create="create" @update="update">
     <Image :origin="0" texture="forest" />
-    <Player ref="player" :initialX="400" :initialY="300" @shot="v => bullets.push(v)" @dead="onDead" />
+    <Player ref="player" :initialX="400" :initialY="300" @shot="bullets.add" @dead="onDead" />
     <Enemy v-for="v in enemies" :key="v.id" :ref="e => v.ref = e" :initialX="v.x" :initialY="v.y" @destroy="enemyDestroy(v)" :target="player" />
-    <Bullet v-for="(v, i) in bullets" :key="v.id" :initialX="v.x" :initialY="v.y" :r="v.r" :depth="1000" @destroy="bullets.splice(i, 1)" />
+    <Bullet v-for="v in bullets.seeds.value" :key="v.id" :ref="bullets.register" :init="v" :depth="1000" @destroy="bullets.remove(v)" />
   </Scene>
 </template>
 
 <script>
-import { ref, inject, provide } from 'vue'
+import { ref, inject, provide, onBeforeUpdate } from 'vue'
 import { refScene, Scene, Image } from 'phavuer'
 import Player from './Player.vue'
 import Enemy from './Enemy.vue'
 import Bullet from './Bullet.vue'
 import config from '../config'
+const useRepository = () => {
+  const seeds = ref([])
+  const list = ref([])
+  const add = data => seeds.value.push({ id: Symbol('id'), ...data })
+  const remove = seed => seeds.value.splice(seeds.value.indexOf(seed), 1)
+  const register = instance => list.value.push(instance)
+  const clear = () => {
+    seeds.value.splice(0)
+    list.value.splice(0)
+  }
+  onBeforeUpdate(() => list.value.splice(0))
+  return { seeds, list, add, remove, register, clear }
+}
 export default {
   components: { Scene, Image, Player, Enemy, Bullet },
   emits: ['gameOver'],
-  setup (props, context) {
+  setup (_, context) {
     const scene = refScene(null)
     const player = ref(null)
     const tick = ref(0)
     provide('tick', tick)
     const score = inject('score')
-    const bullets = ref([])
+    const bullets = useRepository()
     const enemies = ref([])
     provide('bullets', bullets)
     provide('enemies', enemies)
@@ -36,7 +49,7 @@ export default {
       tick.value = 0
       score.value = 0
       enemies.value.splice(0)
-      bullets.value.splice(0)
+      bullets.clear()
     }
     const update = (scene) => {
       if (!player.value) return
@@ -50,9 +63,7 @@ export default {
         enemies.value.push({ id: Symbol('id'), x: Math.chance() ? 0 : 960, y: Math.randomInt(50, 490), ref: ref(null) })
       }
     }
-    const onDead = () => {
-      context.emit('gameOver')
-    }
+    const onDead = () => context.emit('gameOver')
     return {
       scene,
       create,

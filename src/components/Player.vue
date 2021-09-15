@@ -55,7 +55,7 @@ export default {
       const r = Math.atan2(-diffY, -diffX)
       data.frame = animator.play(getAnimationKey8(r, 8))
       if (tick.value % config.GAME.FIRES_INTERVAL === 0) {
-        context.emit('shot', { id: Symbol('id'), x: object.value.x, y: object.value.y, r })
+        context.emit('shot', { x: object.value.x, y: object.value.y, r })
       }
       const distance = Math.hypot(diffY, diffY)
       if (distance < 10) {

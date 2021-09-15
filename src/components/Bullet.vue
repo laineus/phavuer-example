@@ -1,27 +1,27 @@
 <template>
-  <Image ref="object" texture="fire" :frame="data.frame" @create="create" />
+  <Image ref="object" texture="fire" :frame="frame" @create="create" />
 </template>
 
 <script>
-import { inject, reactive } from 'vue'
+import { inject, reactive, toRefs } from 'vue'
 import { refObj, Image, onPreUpdate } from 'phavuer'
 import { overScreen, closeTo, FrameAnimator } from './substanceUtils'
 export default {
   components: { Image },
-  props: ['initialX', 'initialY', 'r'],
+  props: ['init'],
   emits: ['destroy'],
   setup (props, context) {
     const scene = inject('scene')
     const enemies = inject('enemies')
     const object = refObj(null)
-    const data = reactive({ frame: 0 })
+    const data = reactive({ frame: 0, id: props.init.id, x: props.init.x, y: props.init.y, r: props.init.r })
     const animator = new FrameAnimator([{ key: 'fire', frames: [0, 1, 2], duration: 5 }])
     const create = object => {
-      const addX = Math.cos(props.r)
-      const addY = Math.sin(props.r)
-      object.setPosition(props.initialX + addX * 30, props.initialY + addY * 30)
+      const addX = Math.cos(data.r)
+      const addY = Math.sin(data.r)
+      object.setPosition(data.x + addX * 30, data.y + addY * 30)
       object.setBlendMode(Phaser.BlendModes.OVERLAY)
-      object.setRotation(props.r)
+      object.setRotation(data.r)
       scene.physics.world.enable(object)
       object.body.setVelocity(addX, addY)
       object.body.velocity.normalize().scale(300)
@@ -39,8 +39,8 @@ export default {
       })
     })
     return {
+      ...toRefs(data),
       object,
-      data,
       create
     }
   }
