@@ -1,69 +1,74 @@
 <template>
-  <Scene ref="scene" name="UIScene" :autoStart="false" @create="create">
-    <Rectangle v-if="props.result" :origin="0" :width="960" :height="540" :fillColor="0x000000" :alpha="bg.alpha" @create="onResult" @pointerdown="onClick" />
-    <Text :visible="scoreText.visible" :text="`Score: ${String(score).padStart(5, '0')}`" :depth="100" :x="scoreText.x" :y="scoreText.y" :origin="scoreText.origin" :style="{ fontSize: scoreText.size, fontStyle: 'bold' }" />
+  <Scene name="UIScene" :autoStart="false" @create="create">
+    <Rectangle v-if="result" :origin="0" :width="960" :height="540" :tween="bg.tween" :fillColor="0x000000" @pointerdown="onClick" />
+    <Text
+      :visible="scoreText.visible"
+      :text="`Score: ${String(score).padStart(5, '0')}`"
+      :depth="100"
+      :x="scoreText.x"
+      :y="scoreText.y"
+      :origin="scoreText.origin"
+      :style="{ fontSize: scoreText.size, fontStyle: 'bold' }"
+      :tween="scoreText.tween"
+    />
   </Scene>
 </template>
 
 <script>
-import { inject, ref, reactive } from 'vue'
-import { refScene, Scene, Text, Rectangle } from 'phavuer'
+import { inject, ref, reactive, watch } from 'vue'
+import { Scene, Text, Rectangle } from 'phavuer'
 export default {
   components: { Scene, Rectangle, Text },
   props: ['result'],
   emits: ['reset'],
   setup (props, context) {
-    const scene = refScene(null)
     const canReset = ref(false)
     const score = inject('score')
-    const bg = reactive({ alpha: 0 })
-    const scoreText = reactive({ visible: true, x: 10, y: 10, size: 18, origin: 0 })
-    const create = (scene) => {
+    const bg = reactive({ tween: null })
+    const scoreText = reactive({ visible: true, x: 10, y: 10, size: 18, origin: 0, tween: null })
+    const create = () => {
       scoreText.visible = true
       scoreText.x = 10
       scoreText.y = 10
       scoreText.size = 18
       scoreText.origin = 0
-      bg.alpha = 0
+      scoreText.tween = null
+      bg.tween = null
       canReset.value = false
     }
-    const onClick = (object) => {
+    const onClick = () => {
       if (!canReset.value) return
       scoreText.visible = false
-      scene.value.add.tween({
-        targets: bg,
+      bg.tween = {
         alpha: 1,
         duration: 400,
         onComplete: () => context.emit('reset')
-      })
+      }
     }
-    const onResult = object => {
-      scene.value.add.tween({
-        targets: bg,
-        alpha: 0.7,
-        duration: 150
-      })
-      scene.value.add.tween({
-        targets: scoreText,
-        x: 480,
-        y: 270,
-        size: 30,
-        origin: 0.5,
-        duration: 150
-      })
-      setTimeout(() => {
-        canReset.value = true
-      }, 1500)
-    }
+    watch(() => props.result, (current, prev) => {
+      if (!prev && current) {
+        bg.tween = {
+          alpha: { from: 0, to: 0.7 },
+          duration: 150
+        }
+        scoreText.tween = {
+          x: 480,
+          y: 270,
+          size: 30,
+          origin: 0.5,
+          duration: 150
+        }
+        setTimeout(() => {
+          canReset.value = true
+        }, 1500)
+      }
+    })
     return {
-      props,
-      scene,
       score,
       scoreText,
       bg,
       create,
-      onClick,
-      onResult
+      onClick
     }
   }
 }
