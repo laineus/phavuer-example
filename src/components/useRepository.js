@@ -14,6 +14,7 @@ export default () => {
   }
   const register = instance => {
     if (!instance) return
+    if (!instance.id) console.warn('Vue instance should return the "id" of the seed.')
     list.value.push(instance)
   }
   const clear = () => {
