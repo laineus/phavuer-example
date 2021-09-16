@@ -1,14 +1,22 @@
 <template>
   <Scene name="UIScene" :autoStart="false" @create="create">
-    <Rectangle v-if="result" :origin="0" :width="960" :height="540" :tween="bg.tween" :fillColor="0x000000" @pointerdown="onClick" />
+    <Rectangle
+      v-if="result"
+      :origin="0"
+      :width="960"
+      :height="540"
+      :fillColor="0x000000"
+      :tween="bg.tween"
+      @pointerdown="onClick"
+    />
     <Text
-      :visible="scoreText.visible"
+      v-if="scoreText.visible"
       :text="`Score: ${String(score).padStart(5, '0')}`"
       :depth="100"
-      :x="scoreText.x"
-      :y="scoreText.y"
-      :origin="scoreText.origin"
-      :style="{ fontSize: scoreText.size, fontStyle: 'bold' }"
+      :x="10"
+      :y="10"
+      :origin="0"
+      :style="{ fontSize: 18, fontStyle: 'bold' }"
       :tween="scoreText.tween"
     />
   </Scene>
@@ -25,13 +33,9 @@ export default {
     const canReset = ref(false)
     const score = inject('score')
     const bg = reactive({ tween: null })
-    const scoreText = reactive({ visible: true, x: 10, y: 10, size: 18, origin: 0, tween: null })
+    const scoreText = reactive({ visible: true, tween: null })
     const create = () => {
       scoreText.visible = true
-      scoreText.x = 10
-      scoreText.y = 10
-      scoreText.size = 18
-      scoreText.origin = 0
       scoreText.tween = null
       bg.tween = null
       canReset.value = false
