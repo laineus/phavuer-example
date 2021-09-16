@@ -60,8 +60,6 @@ export default {
           x: 480 - 109,
           y: 270 - 16,
           scale: 1,
-          originX: 0.5,
-          originY: 0.5,
           duration: 150
         }
         setTimeout(() => {
