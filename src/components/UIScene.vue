@@ -16,7 +16,8 @@
       :x="10"
       :y="10"
       :origin="0"
-      :style="{ fontSize: 18, fontStyle: 'bold' }"
+      :scale="0.6"
+      :style="{ fontSize: 30, fontStyle: 'bold' }"
       :tween="scoreText.tween"
     />
   </Scene>
@@ -56,10 +57,11 @@ export default {
           duration: 150
         }
         scoreText.tween = {
-          x: 480,
-          y: 270,
-          size: 30,
-          origin: 0.5,
+          x: 480 - 109,
+          y: 270 - 16,
+          scale: 1,
+          originX: 0.5,
+          originY: 0.5,
           duration: 150
         }
         setTimeout(() => {
