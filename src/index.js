@@ -1,24 +1,14 @@
 import 'phaser'
 import { createApp } from 'vue'
 import './extendNativeClassFunctions'
-import loadAssets from './loadAssets'
 import config from './config'
 import { createPhavuerApp } from 'phavuer'
 import App from './components/App.vue'
 
-const option = {
+const game = new Phaser.Game({
   type: Phaser.AUTO,
   width: config.WIDTH,
   height: config.HEIGHT,
-  scene: {
-    create () {
-      Phaser.BlendModes.OVERLAY = this.sys.game.renderer.addBlendMode([WebGLRenderingContext.SRC_ALPHA, WebGLRenderingContext.ONE], WebGLRenderingContext.FUNC_ADD)
-      createPhavuerApp(this.game, createApp(App))
-    },
-    preload () {
-      loadAssets(this)
-    }
-  },
   parent: 'game',
   physics: {
     default: 'arcade',
@@ -32,8 +22,9 @@ const option = {
   input: {
     activePointers: 3
   }
-}
-
-const game = new Phaser.Game(option)
+})
+Phaser.BlendModes.OVERLAY = game.renderer.addBlendMode([WebGLRenderingContext.SRC_ALPHA, WebGLRenderingContext.ONE], WebGLRenderingContext.FUNC_ADD)
+const vueApp = createApp(App)
+createPhavuerApp(game, vueApp)
 window.game = game
 window.addEventListener('resize', () => game.scale.refresh())

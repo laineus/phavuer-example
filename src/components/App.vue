@@ -7,14 +7,15 @@
 </template>
 
 <script>
-import { provide, inject, ref } from 'vue'
+import { provide, ref } from 'vue'
+import { useGame } from 'phavuer'
 import TitleScene from './TitleScene.vue'
 import GameScene from './GameScene.vue'
 import UIScene from './UIScene.vue'
 export default {
   components: { TitleScene, GameScene, UIScene },
   setup () {
-    const game = inject('game')
+    const game = useGame()
     const score = ref(0)
     const result = ref(false)
     const onGameOver = () => {
