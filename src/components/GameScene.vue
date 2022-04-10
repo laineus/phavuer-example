@@ -39,6 +39,9 @@ export default {
     }
     const update = (scene) => {
       tick++
+      player.value.update()
+      enemies.list.forEach(enemy => enemy.update())
+      bullets.list.forEach(bullet => bullet.update())
       const activePointer = scene.input.manager.pointers.find(v => v.isDown)
       if (activePointer) {
         player.value.setTargetPosition(activePointer.x, activePointer.y)
@@ -51,9 +54,6 @@ export default {
         })
         enemies.add(enemy)
       }
-      player.value.update()
-      enemies.list.forEach(enemy => enemy.update())
-      bullets.list.forEach(bullet => bullet.update())
     }
     return {
       scene,
