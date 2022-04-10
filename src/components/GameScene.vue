@@ -1,5 +1,5 @@
 <template>
-  <Scene ref="scene" name="GameScene" :autoStart="false" @create="create" @update="update">
+  <Scene name="GameScene" :autoStart="false" @create="create" @update="update">
     <Image :origin="0" texture="forest" />
     <PlayerComponent :player="player" />
     <EnemyComponent v-for="v in enemies.list" :key="v.id" :enemy="v" />
@@ -9,7 +9,7 @@
 
 <script>
 import { inject, ref } from 'vue'
-import { refScene, Scene, Image } from 'phavuer'
+import { Scene, Image } from 'phavuer'
 import PlayerComponent, { Player } from './Player.vue'
 import EnemyComponent, { Enemy } from './Enemy.vue'
 import BulletComponent, { Bullet } from './Bullet.vue'
@@ -19,7 +19,6 @@ export default {
   components: { Scene, Image, PlayerComponent, EnemyComponent, BulletComponent },
   emits: ['gameOver'],
   setup (_, context) {
-    const scene = refScene(null)
     const player = ref(null)
     const bullets = new Repository()
     const enemies = new Repository()
@@ -56,7 +55,6 @@ export default {
       }
     }
     return {
-      scene,
       create,
       update,
       score,
