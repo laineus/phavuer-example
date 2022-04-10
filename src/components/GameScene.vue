@@ -8,47 +8,52 @@
 </template>
 
 <script>
-import { ref, inject, provide, reactive } from 'vue'
+import { inject, ref } from 'vue'
 import { refScene, Scene, Image } from 'phavuer'
 import PlayerComponent, { Player } from './Player.vue'
 import EnemyComponent, { Enemy } from './Enemy.vue'
 import BulletComponent, { Bullet } from './Bullet.vue'
 import config from '../config'
-import { bullets, enemies } from './repositories'
+import Repository from './Repository'
 export default {
   components: { Scene, Image, PlayerComponent, EnemyComponent, BulletComponent },
   emits: ['gameOver'],
   setup (_, context) {
     const scene = refScene(null)
-    const player = reactive(new Player({ x: 400, y: 300 }))
-    player.on('shot', ({ x, y, r }) => {
-      bullets.add(new Bullet({ x, y, r, enemies }))
-    }).on('destroy', () => {
-      context.emit('gameOver')
-    })
-    const tick = ref(0)
-    provide('tick', tick)
+    const player = ref(null)
+    const bullets = new Repository()
+    const enemies = new Repository()
+    let tick = 0
     const score = inject('score')
     const create = () => {
-      tick.value = 0
+      tick = 0
       score.value = 0
+      player.value = new Player({ x: 400, y: 300 })
+      player.value.on('shot', ({ x, y, r }) => {
+        bullets.add(new Bullet({ x, y, r, enemies }))
+      }).on('destroy', () => {
+        context.emit('gameOver')
+      })
       enemies.clear()
       bullets.clear()
     }
     const update = (scene) => {
-      tick.value++
+      tick++
       const activePointer = scene.input.manager.pointers.find(v => v.isDown)
       if (activePointer) {
-        player.setTargetPosition(activePointer.x, activePointer.y)
+        player.value.setTargetPosition(activePointer.x, activePointer.y)
       }
-      const freq = Math.max(config.GAME.ENEMY_FREQ_BEGIN - Math.round(tick.value / 15), config.GAME.ENEMY_FREQ_END)
-      if (tick.value % freq === 5) {
-        const enemy = new Enemy({ x: Math.chance() ? 0 : 960, y: Math.randomInt(50, 490), target: player })
+      const freq = Math.max(config.GAME.ENEMY_FREQ_BEGIN - Math.round(tick / 15), config.GAME.ENEMY_FREQ_END)
+      if (tick % freq === 5) {
+        const enemy = new Enemy({ x: Math.chance() ? 0 : 960, y: Math.randomInt(50, 490), target: player.value })
         enemy.on('destroy', () => {
           score.value += enemy.type.speed ?? 0
         })
         enemies.add(enemy)
       }
+      player.value.update()
+      enemies.list.forEach(enemy => enemy.update())
+      bullets.list.forEach(bullet => bullet.update())
     }
     return {
       scene,

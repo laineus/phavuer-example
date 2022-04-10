@@ -7,7 +7,7 @@
 
 <script>
 import { reactive, toRefs } from 'vue'
-import { Container, Image, Body, onPreUpdate } from 'phavuer'
+import { Container, Image, Body, onPostUpdate } from 'phavuer'
 import { FrameAnimator, getAnimationKey4, getDieTween, WALK_ANIMATIONS_4 } from './substanceUtils'
 import BaseClass from './BaseClass'
 const TYPES = [
@@ -56,8 +56,7 @@ export default {
     props.enemy.on('hit', () => {
       data.dieTween = getDieTween(() => props.enemy.emit('destroy'))
     })
-    onPreUpdate(() => {
-      props.enemy.update()
+    onPostUpdate(() => {
       data.frame = animator.play(getAnimationKey4(props.enemy.vector.angle()))
     })
     return {

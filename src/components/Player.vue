@@ -9,7 +9,7 @@
 
 <script>
 import { computed, reactive, toRefs } from 'vue'
-import { Container, Image, Body, onPreUpdate } from 'phavuer'
+import { Container, Image, Body, onPostUpdate } from 'phavuer'
 import Gauge from './Gauge.vue'
 import Hit from './Hit.vue'
 import config from '../config'
@@ -84,8 +84,7 @@ export default {
     props.player.on('dead', () => {
       data.dieTween = getDieTween(() => props.player.emit('destroy'))
     })
-    onPreUpdate(() => {
-      props.player.update()
+    onPostUpdate(() => {
       data.frame = animator.play(getAnimationKey8(props.player.r, 8))
     })
     return {
