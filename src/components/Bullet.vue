@@ -10,7 +10,7 @@ import { Image, Body, onPreUpdate } from 'phavuer'
 import { overScreen, closeTo, FrameAnimator } from './substanceUtils'
 import BaseClass from './BaseClass'
 export class Bullet extends BaseClass {
-  constructor (x, y, r, { enemies }) {
+  constructor ({ x, y, r, enemies }) {
     super()
     this.x = x
     this.y = y

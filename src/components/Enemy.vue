@@ -9,48 +9,60 @@
 import { reactive, toRefs } from 'vue'
 import { Container, Image, Body, onPreUpdate } from 'phavuer'
 import { FrameAnimator, getAnimationKey4, getDieTween, WALK_ANIMATIONS_4 } from './substanceUtils'
+import BaseClass from './BaseClass'
 const TYPES = [
   { texture: 'kinoko', speed: 100 },
   { texture: 'flower', speed: 60 },
   { texture: 'boar', speed: 150 }
 ]
+export class Enemy extends BaseClass {
+  constructor ({ x, y, target }) {
+    super()
+    this.type = TYPES.random()
+    this.x = x
+    this.y = y
+    this.target = target
+    this.vector = null
+    this.alive = true
+    this.velocityX = 0
+    this.velocityY = 0
+  }
+  update () {
+    this.vector = new Phaser.Math.Vector2(this.target.x - this.x, this.target.y - this.y)
+    if (this.vector.length() < 10 || !this.alive) {
+      this.velocityX = 0
+      this.velocityY = 0
+      if (this.alive) this.target.hit(this)
+      return
+    }
+    this.vector.normalize().scale(this.type.speed)
+    this.velocityX = this.vector.x
+    this.velocityY = this.vector.y
+  }
+  hit () {
+    this.alive = false
+    this.emit('hit')
+  }
+}
 export default {
   components: { Container, Image, Body },
-  props: ['init', 'target'],
-  emits: ['destroy'],
-  setup (props, context) {
+  props: ['enemy'],
+  setup (props) {
     const data = reactive({
-      id: props.init.id,
-      alive: true,
-      x: props.init.x,
-      y: props.init.y,
-      velocityX: 0,
-      velocityY: 0,
       frame: 0,
-      dieTween: null,
-      type: TYPES.random()
+      dieTween: null
     })
     const animator = new FrameAnimator(WALK_ANIMATIONS_4)
-    const hit = () => {
-      data.alive = false
-      data.dieTween = getDieTween(() => context.emit('destroy'))
-    }
+    props.enemy.on('hit', () => {
+      data.dieTween = getDieTween(() => props.enemy.emit('destroy'))
+    })
     onPreUpdate(() => {
-      const vector = new Phaser.Math.Vector2(props.target.x - data.x, props.target.y - data.y)
-      data.frame = animator.play(getAnimationKey4(vector.angle()))
-      if (vector.length() < 10 || !data.alive) {
-        data.velocityX = 0
-        data.velocityY = 0
-        if (data.alive) props.target.hit(data)
-        return
-      }
-      vector.normalize().scale(data.type.speed)
-      data.velocityX = vector.x
-      data.velocityY = vector.y
+      props.enemy.update()
+      data.frame = animator.play(getAnimationKey4(props.enemy.vector.angle()))
     })
     return {
       ...toRefs(data),
-      hit
+      ...toRefs(props.enemy)
     }
   }
 }
