@@ -2,7 +2,7 @@ module.exports = {
   root: true,
   extends: [
     'standard',
-    'plugin:vue/vue3-recommended',
+    'plugin:vue/vue3-recommended'
   ],
   plugins: [],
   rules: {
@@ -14,6 +14,7 @@ module.exports = {
     'vue/attributes-order': 0,
     'vue/attribute-hyphenation': 0,
     'vue/require-prop-types': 0,
+    'vue/no-mutating-props': 0,
     'vue/custom-event-name-casing': 0,
     'vue/singleline-html-element-content-newline': 0
   },

@@ -1,9 +1,9 @@
 <template>
   <Scene ref="scene" name="GameScene" :autoStart="false" @create="create" @update="update">
     <Image :origin="0" texture="forest" />
-    <Player ref="player" :initialX="400" :initialY="300" @shot="bullets.add" @dead="onDead" />
+    <Player ref="player" :initialX="400" :initialY="300" @shot="addBullet" @dead="onDead" />
     <Enemy v-for="v in enemies.seeds" :key="v.id" :ref="enemies.register" :init="v" @destroy="onEnemyDestroy(v.id)" :target="player" />
-    <Bullet v-for="v in bullets.seeds" :key="v.id" :ref="bullets.register" :init="v" :depth="1000" @destroy="bullets.remove(v.id)" />
+    <BulletComponent v-for="v in bullets.list" :key="v.id" :bullet="v" :depth="1000" />
   </Scene>
 </template>
 
@@ -12,11 +12,12 @@ import { ref, inject, provide } from 'vue'
 import { refScene, Scene, Image } from 'phavuer'
 import Player from './Player.vue'
 import Enemy from './Enemy.vue'
-import Bullet from './Bullet.vue'
+import BulletComponent, { Bullet } from './Bullet.vue'
 import config from '../config'
 import useRepository from './useRepository'
+import { bullets } from './repositories'
 export default {
-  components: { Scene, Image, Player, Enemy, Bullet },
+  components: { Scene, Image, Player, Enemy, BulletComponent },
   emits: ['gameOver'],
   setup (_, context) {
     const scene = refScene(null)
@@ -24,10 +25,10 @@ export default {
     const tick = ref(0)
     provide('tick', tick)
     const score = inject('score')
-    const bullets = useRepository()
     const enemies = useRepository()
-    provide('bullets', bullets)
-    provide('enemies', enemies)
+    const addBullet = (data) => {
+      bullets.add(new Bullet(data.x, data.y, data.r, { enemies }))
+    }
     const create = () => {
       tick.value = 0
       score.value = 0
@@ -60,7 +61,8 @@ export default {
       score,
       player,
       enemies,
-      bullets
+      bullets,
+      addBullet
     }
   }
 }
