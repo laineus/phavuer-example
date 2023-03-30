@@ -4,10 +4,11 @@
   </Scene>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue'
 import { Scene, Image, useGame } from 'phavuer'
 import loadAssets from '../loadAssets'
-export default {
+export default defineComponent({
   components: { Scene, Image },
   setup () {
     const game = useGame()
@@ -16,7 +17,7 @@ export default {
       game.scene.start('UIScene')
       game.scene.stop('TitleScene')
     }
-    const preload = (scene) => {
+    const preload = (scene: Phaser.Scene) => {
       loadAssets(scene)
     }
     return {
@@ -24,5 +25,5 @@ export default {
       preload
     }
   }
-}
+})
 </script>

@@ -6,13 +6,13 @@
   </div>
 </template>
 
-<script>
-import { provide, ref } from 'vue'
+<script lang="ts">
+import { defineComponent, provide, ref } from 'vue'
 import { useGame } from 'phavuer'
 import TitleScene from './TitleScene.vue'
 import GameScene from './GameScene.vue'
 import UIScene from './UIScene.vue'
-export default {
+export default defineComponent({
   components: { TitleScene, GameScene, UIScene },
   setup () {
     const game = useGame()
@@ -35,5 +35,5 @@ export default {
       result
     }
   }
-}
+})
 </script>

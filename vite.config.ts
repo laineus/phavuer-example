@@ -1,26 +1,14 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import replace from '@rollup/plugin-replace'
-import phaserAssetsLoader from 'phaser-assets-loader'
+import phaserAssetsRollupPlugin from 'phaser-assets-loader/plugins/rollupPlugin'
 import packageJson from './package.json'
 
-const vitePhaserAssetsLoader = config => {
-  return {
-    name: 'phaser-assets-loader',
-    config (_, { mode }) {
-      const { exportJson, watch } = phaserAssetsLoader(config)
-      exportJson()
-      if (mode === 'development') {
-        watch()
-      }
-    }
-  }
-}
-
+// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
-    vitePhaserAssetsLoader({
+    phaserAssetsRollupPlugin({
       patterns: [
         { type: 'image', prefix: '', dir: '/img', rule: /^\w+\.png$/ }
       ],
@@ -31,5 +19,5 @@ export default defineConfig({
       'typeof CANVAS_RENDERER': JSON.stringify(true),
       'typeof WEBGL_RENDERER': JSON.stringify(true)
     })
-  ]
+  ],
 })

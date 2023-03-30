@@ -1,6 +1,5 @@
 import 'phaser'
 import { createApp } from 'vue'
-import './extendNativeClassFunctions'
 import config from './config'
 import { createPhavuerApp } from 'phavuer'
 import App from './components/App.vue'
@@ -23,8 +22,7 @@ const game = new Phaser.Game({
     activePointers: 3
   }
 })
-Phaser.BlendModes.OVERLAY = game.renderer.addBlendMode([WebGLRenderingContext.SRC_ALPHA, WebGLRenderingContext.ONE], WebGLRenderingContext.FUNC_ADD)
+config.BLEND_MODES.OVERLAY = (game.renderer as Phaser.Renderer.WebGL.WebGLRenderer).addBlendMode([WebGLRenderingContext.SRC_ALPHA, WebGLRenderingContext.ONE], WebGLRenderingContext.FUNC_ADD)
 const vueApp = createApp(App)
 createPhavuerApp(game, vueApp)
-window.game = game
 window.addEventListener('resize', () => game.scale.refresh())

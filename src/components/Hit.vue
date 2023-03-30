@@ -2,9 +2,10 @@
   <Image :tween="tween" />
 </template>
 
-<script>
+<script lang="ts">
 import { Image } from 'phavuer'
-export default {
+import { defineComponent } from 'vue'
+export default defineComponent({
   components: { Image },
   emits: ['end'],
   setup (_, context) {
@@ -17,5 +18,5 @@ export default {
       tween
     }
   }
-}
+})
 </script>

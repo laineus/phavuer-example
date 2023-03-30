@@ -1,31 +1,35 @@
 <template>
-  <Container :depth="y" v-model:x="x" v-model:y="y">
-    <Body :drag="300" :velocityX="velocityX" :velocityY="velocityY" />
-    <Image :texture="type.texture" :frame="frame" :tween="dieTween" :tint="dieTween ? 0xFF0000 : undefined" />
+  <Container :depth="enemy.y" v-model:x="enemy.x" v-model:y="enemy.y">
+    <Body :velocityX="enemy.velocityX" :velocityY="enemy.velocityY" />
+    <Image :texture="enemy.type.texture" :frame="data.frame" :tween="data.dieTween" :tint="data.dieTween ? 0xFF0000 : undefined" />
   </Container>
 </template>
 
-<script>
-import { reactive, toRefs } from 'vue'
-import { Container, Image, Body, onPostUpdate } from 'phavuer'
+<script lang="ts">
+import { defineComponent, reactive } from 'vue'
+import { Container, Image, Body, onPostUpdate, Phavuer } from 'phavuer'
 import { FrameAnimator, getAnimationKey4, getDieTween, WALK_ANIMATIONS_4 } from './substanceUtils'
 import BaseClass from './BaseClass'
+import { Player } from './Player.vue'
 const TYPES = [
   { texture: 'kinoko', speed: 100 },
   { texture: 'flower', speed: 60 },
   { texture: 'boar', speed: 150 }
 ]
+const randomInt = (min: number, max: number) => Math.floor(Math.random() * (max + 1 - min)) + min
+const random = <T>(arr: Array<T>) => arr[randomInt(0, arr.length - 1)]
 export class Enemy extends BaseClass {
-  constructor ({ x, y, target }) {
+  type = random(TYPES)
+  vector = new Phaser.Math.Vector2(NaN, NaN)
+  alive = true
+  velocityX = 0
+  velocityY = 0
+  target: Player
+  constructor ({ x, y, target }: { x: number, y: number, target: Player }) {
     super()
-    this.type = TYPES.random()
     this.x = x
     this.y = y
     this.target = target
-    this.vector = null
-    this.alive = true
-    this.velocityX = 0
-    this.velocityY = 0
   }
   update () {
     this.vector = new Phaser.Math.Vector2(this.target.x - this.x, this.target.y - this.y)
@@ -44,13 +48,15 @@ export class Enemy extends BaseClass {
     this.emit('hit')
   }
 }
-export default {
+export default defineComponent({
   components: { Container, Image, Body },
-  props: ['enemy'],
+  props: {
+    enemy: {type: Enemy, required: true }
+  },
   setup (props) {
     const data = reactive({
       frame: 0,
-      dieTween: null
+      dieTween: undefined as Phavuer.TweenConfig | undefined
     })
     const animator = new FrameAnimator(WALK_ANIMATIONS_4)
     props.enemy.on('hit', () => {
@@ -60,9 +66,8 @@ export default {
       data.frame = animator.play(getAnimationKey4(props.enemy.vector.angle()))
     })
     return {
-      ...toRefs(data),
-      ...toRefs(props.enemy)
+      data
     }
   }
-}
+})
 </script>
