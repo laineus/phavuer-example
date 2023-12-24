@@ -1,9 +1,7 @@
 <template>
-  <div>
-    <TitleScene />
-    <GameScene @gameOver="onGameOver" />
-    <UIScene :result="result" @reset="onReset" />
-  </div>
+  <TitleScene />
+  <GameScene @gameOver="onGameOver" />
+  <UIScene :result="result" @reset="onReset" />
 </template>
 
 <script lang="ts">
