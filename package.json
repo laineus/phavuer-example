@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "phaser": "^3.70.0",
-    "phavuer": "^0.14.0",
+    "phavuer": "^0.15.1",
     "vue": "^3.3.13"
   },
   "devDependencies": {

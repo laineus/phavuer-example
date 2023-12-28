@@ -489,10 +489,10 @@ phaser@^3.70.0:
   dependencies:
     eventemitter3 "^5.0.1"
 
-phavuer@^0.14.0:
-  version "0.14.0"
-  resolved "https://registry.yarnpkg.com/phavuer/-/phavuer-0.14.0.tgz#265eda90374d3f022bc7b6d23dd3d0fcb052a8c9"
-  integrity sha512-Mde6j8m5Rn5VcNqn3fKtrR8C8AQmQU8Y/LGtobTFyIShosvnrc5HTUopY+dYrjWEUF3mDiFHO/OHIAWP8cUG8w==
+phavuer@^0.15.1:
+  version "0.15.1"
+  resolved "https://registry.yarnpkg.com/phavuer/-/phavuer-0.15.1.tgz#793313afe9240967971352f78890495fb878b8c6"
+  integrity sha512-ROTWxoSpQiSeveEEMDPw49dAWONWWSejs/arH/4wk8g05Xa3TJVjvNNtWxYO+JFkDRoMRSewWqSl1O5QqQc2Dw==
 
 picocolors@^1.0.0:
   version "1.0.0"
