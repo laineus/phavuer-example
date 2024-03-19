@@ -1,11 +1,8 @@
 import assets from './assets.json'
 import { PhaserAssets } from 'phaser-assets-loader'
-const phaserAssets = assets as unknown as PhaserAssets
+const phaserAssets = assets as PhaserAssets
 export default (scene: Phaser.Scene) => {
-  Object.entries(phaserAssets).forEach(([method, list]) => {
-    switch (method) {
-      case 'image': return list.forEach(([name, path]) => scene.load.image(name, path))
-      case 'spritesheet': return list.forEach(([name, path, option]) => scene.load.spritesheet(name, path as string, option))
-    }
-  })
+  phaserAssets.image?.forEach(v => scene.load.image(...v))
+  phaserAssets.audio?.forEach(v => scene.load.image(...v))
+  phaserAssets.spritesheet?.forEach(v => scene.load.spritesheet(...v))
 }
