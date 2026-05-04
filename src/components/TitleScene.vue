@@ -1,6 +1,6 @@
 <template>
-  <Scene name="TitleScene" :autoStart="true" @preload="preload">
-    <Image texture="title" :origin="0" @pointerdown="onClick" />
+  <Scene name="TitleScene" :autoStart="true" @preload="preload" v-slot="{ preloaded }">
+    <Image texture="title" :origin="0" @pointerdown="onClick" v-if="preloaded" />
   </Scene>
 </template>
 

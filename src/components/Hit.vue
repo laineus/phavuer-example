@@ -1,5 +1,5 @@
 <template>
-  <Image :tween="tween" />
+  <Image texture="hit" :tween="tween" />
 </template>
 
 <script lang="ts">

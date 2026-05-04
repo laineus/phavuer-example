@@ -8,6 +8,7 @@
 </template>
 
 <script lang="ts">
+import * as Phaser from 'phaser'
 import { defineComponent, computed, reactive, toRefs } from 'vue'
 import { Container, Image, Body, onPostUpdate, Phavuer } from 'phavuer'
 import Gauge from './Gauge.vue'

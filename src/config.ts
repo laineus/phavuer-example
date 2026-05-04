@@ -6,9 +6,6 @@ export default {
   },
   COLORS: {
   },
-  BLEND_MODES: {
-    OVERLAY: NaN
-  },
   GAME: {
     PLAYER_HP: 100,
     ENEMY_FREQ_BEGIN: 200, // first frequency of enemy emitting on game start

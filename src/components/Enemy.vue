@@ -6,6 +6,7 @@
 </template>
 
 <script lang="ts">
+import * as Phaser from 'phaser'
 import { defineComponent, reactive } from 'vue'
 import { Container, Image, Body, onPostUpdate, Phavuer } from 'phavuer'
 import { FrameAnimator, getAnimationKey4, getDieTween, WALK_ANIMATIONS_4 } from './substanceUtils'

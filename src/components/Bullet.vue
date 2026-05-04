@@ -5,10 +5,10 @@
 </template>
 
 <script lang="ts">
+import * as Phaser from 'phaser'
 import { defineComponent, ref } from 'vue'
 import { Image, Body, onPostUpdate } from 'phavuer'
 import { overScreen, FrameAnimator } from './substanceUtils'
-import config from '../config'
 import BaseClass from './BaseClass'
 import Repository from './Repository'
 import { Enemy } from './Enemy.vue'
@@ -53,7 +53,7 @@ export default defineComponent({
     })
     return {
       frame,
-      blendMode: config.BLEND_MODES.OVERLAY
+      blendMode: Phaser.BlendModes.ADD
     }
   }
 })

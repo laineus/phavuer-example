@@ -7,6 +7,7 @@
 </template>
 
 <script lang="ts">
+import * as Phaser from 'phaser'
 import { defineComponent, provide, ref } from 'vue'
 import { Game } from 'phavuer'
 import config from '../config'
@@ -50,7 +51,6 @@ export default defineComponent({
     provide('score', score)
     const onReady = (v: Phaser.Game) => {
       game.value = v
-      config.BLEND_MODES.OVERLAY = (v.renderer as Phaser.Renderer.WebGL.WebGLRenderer).addBlendMode([WebGLRenderingContext.SRC_ALPHA, WebGLRenderingContext.ONE], WebGLRenderingContext.FUNC_ADD)
       window.addEventListener('resize', () => v.scale.refresh())
     }
     return {
