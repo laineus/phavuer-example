@@ -1,4 +1,5 @@
 import config from '../config'
+import type { AnimationConfig } from '../composables/useFrameAnimator'
 
 export const overScreen = ({ x, y }: { x: number, y: number }, padding = 0) => {
   return x < -padding || x > config.WIDTH + padding || y < -padding || y > config.HEIGHT + padding
@@ -14,41 +15,12 @@ export const getDieTween = (onComplete: () => void) => {
   }
 }
 
-interface AnimConfig {
-  key: string
-  frames: number[]
-  duration: number
-}
-export class FrameAnimator {
-  patterns:{ [key: string]: (tick: number) => number } = {}
-  tick: number = 0
-  lastPlayedKey: string | null = null
-  constructor (settings: AnimConfig[]) {
-    settings.forEach(setting => this.registerAnim(setting))
-  }
-  registerAnim ({ key, frames, duration }: AnimConfig) {
-    this.patterns[key] = (tick: number) => {
-      const i = Math.floor(tick / duration) % frames.length
-      return frames[i]
-    }
-  }
-  play (key: string) {
-    if (key !== this.lastPlayedKey) {
-      this.tick = 0
-      this.lastPlayedKey = key
-    } else {
-      this.tick++
-    }
-    return this.patterns[key](this.tick)
-  }
-}
-
 export const WALK_ANIMATIONS_4 = [
   { key: 'AS', frames: [0, 1, 2], duration: 20 },
   { key: 'AW', frames: [3, 4, 5], duration: 20 },
   { key: 'DS', frames: [6, 7, 8], duration: 20 },
   { key: 'DW', frames: [9, 10, 11], duration: 20 }
-] as AnimConfig[]
+] as AnimationConfig[]
 
 export const WALK_ANIMATIONS_8 = [
   { key: 'S', frames: [0, 1, 2], duration: 20 },
@@ -59,7 +31,7 @@ export const WALK_ANIMATIONS_8 = [
   { key: 'AW', frames: [15, 16, 17], duration: 20 },
   { key: 'W', frames: [18, 19, 20], duration: 20 },
   { key: 'DW', frames: [21, 22, 23], duration: 20 }
-] as AnimConfig[]
+] as AnimationConfig[]
 
 export const getAnimationKey4 = (r: number) => {
   const step = Math.PI / 2

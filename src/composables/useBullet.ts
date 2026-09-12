@@ -1,9 +1,9 @@
 import * as Phaser from 'phaser'
 import { proxyRefs, ref } from 'vue'
-import Repository from '../components/Repository'
 import { overScreen } from '../components/substanceUtils'
 import { useEntity } from './useEntity'
 import type { Enemy } from './useEnemy'
+import type { Repository } from './useRepository'
 
 export const useBullet = ({ x, y, r, enemies }: { x: number, y: number, r: number, enemies: Repository<Enemy> }) => {
   const entity = useEntity()

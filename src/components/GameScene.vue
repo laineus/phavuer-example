@@ -16,15 +16,15 @@ import BulletComponent from './Bullet.vue'
 import { usePlayer, type Player } from '../composables/usePlayer'
 import { useEnemy, type Enemy } from '../composables/useEnemy'
 import { useBullet, type Bullet } from '../composables/useBullet'
+import { useRepository } from '../composables/useRepository'
 import config from '../config'
-import Repository from './Repository'
 
 const randomInt = (min: number, max: number) => Math.floor(Math.random() * (max + 1 - min)) + min
 const chance = (percent = 0.5) => percent > Math.random()
 const emit = defineEmits<{ gameOver: [] }>()
 const player = ref<Player>()
-const bullets = new Repository<Bullet>()
-const enemies = new Repository<Enemy>()
+const bullets = useRepository<Bullet>()
+const enemies = useRepository<Enemy>()
 const score = inject('score') as Ref<number>
 let tick = 0
 

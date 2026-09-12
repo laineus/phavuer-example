@@ -8,7 +8,8 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
 import { Container, Image, Body, onPostUpdate, Phavuer } from 'phavuer'
-import { FrameAnimator, getAnimationKey4, getDieTween, WALK_ANIMATIONS_4 } from './substanceUtils'
+import { getAnimationKey4, getDieTween, WALK_ANIMATIONS_4 } from './substanceUtils'
+import { useFrameAnimator } from '../composables/useFrameAnimator'
 import type { Enemy } from '../composables/useEnemy'
 
 const props = defineProps<{ enemy: Enemy }>()
@@ -16,7 +17,7 @@ const data = reactive({
   frame: 0,
   dieTween: undefined as Phavuer.TweenConfig | undefined
 })
-const animator = new FrameAnimator(WALK_ANIMATIONS_4)
+const animator = useFrameAnimator(WALK_ANIMATIONS_4)
 
 props.enemy.on('hit', () => {
   data.dieTween = getDieTween(() => props.enemy.emit('destroy'))

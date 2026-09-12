@@ -13,7 +13,8 @@ import { Container, Image, Body, onPostUpdate, Phavuer } from 'phavuer'
 import Gauge from './Gauge.vue'
 import Hit from './Hit.vue'
 import config from '../config'
-import { FrameAnimator, getAnimationKey8, getDieTween, WALK_ANIMATIONS_8 } from './substanceUtils'
+import { getAnimationKey8, getDieTween, WALK_ANIMATIONS_8 } from './substanceUtils'
+import { useFrameAnimator } from '../composables/useFrameAnimator'
 import type { Entity } from '../composables/useEntity'
 import type { Player } from '../composables/usePlayer'
 
@@ -27,7 +28,7 @@ const data = reactive({
   dieTween: undefined as Phavuer.TweenConfig | undefined
 })
 const tint = computed(() => data.dieTween || props.player.damageDelay ? 0xFF0000 : undefined)
-const animator = new FrameAnimator(WALK_ANIMATIONS_8)
+const animator = useFrameAnimator(WALK_ANIMATIONS_8)
 
 props.player.on('hit', ((event: CustomEvent<Entity>) => {
   const enemy = event.detail

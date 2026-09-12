@@ -8,14 +8,14 @@
 import * as Phaser from 'phaser'
 import { ref } from 'vue'
 import { Image, Body, onPostUpdate } from 'phavuer'
-import { FrameAnimator } from './substanceUtils'
+import { useFrameAnimator } from '../composables/useFrameAnimator'
 import type { Bullet } from '../composables/useBullet'
 
 defineProps<{ bullet: Bullet }>()
 
 const frame = ref(0)
 const blendMode = Phaser.BlendModes.ADD
-const animator = new FrameAnimator([{ key: 'fire', frames: [0, 1, 2], duration: 5 }])
+const animator = useFrameAnimator([{ key: 'fire', frames: [0, 1, 2], duration: 5 }])
 
 onPostUpdate(() => {
   frame.value = animator.play('fire')
