@@ -6,9 +6,9 @@
   </Game>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import * as Phaser from 'phaser'
-import { defineComponent, provide, ref } from 'vue'
+import { provide, ref } from 'vue'
 import { Game } from 'phavuer'
 import config from '../config'
 import TitleScene from './TitleScene.vue'
@@ -32,34 +32,26 @@ const gameConfig = {
     activePointers: 3
   }
 }
-export default defineComponent({
-  components: { Game, TitleScene, GameScene, UIScene },
-  setup () {
-    const game = ref<Phaser.Game>()
-    const score = ref(0)
-    const result = ref(false)
-    const onGameOver = () => {
-      game.value?.scene.pause('GameScene')
-      result.value = true
-    }
-    const onReset = () => {
-      game.value?.scene.stop('GameScene')
-      game.value?.scene.stop('UIScene')
-      game.value?.scene.start('TitleScene')
-      result.value = false
-    }
-    provide('score', score)
-    const onReady = (v: Phaser.Game) => {
-      game.value = v
-      window.addEventListener('resize', () => v.scale.refresh())
-    }
-    return {
-      gameConfig,
-      onGameOver,
-      onReset,
-      onReady,
-      result
-    }
-  }
-})
+const game = ref<Phaser.Game>()
+const score = ref(0)
+const result = ref(false)
+
+const onGameOver = () => {
+  game.value?.scene.pause('GameScene')
+  result.value = true
+}
+
+const onReset = () => {
+  game.value?.scene.stop('GameScene')
+  game.value?.scene.stop('UIScene')
+  game.value?.scene.start('TitleScene')
+  result.value = false
+}
+
+provide('score', score)
+
+const onReady = (value: Phaser.Game) => {
+  game.value = value
+  window.addEventListener('resize', () => value.scale.refresh())
+}
 </script>

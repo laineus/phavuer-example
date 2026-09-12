@@ -4,26 +4,19 @@
   </Scene>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
 import { Scene, Image, useGame } from 'phavuer'
 import loadAssets from '../loadAssets'
-export default defineComponent({
-  components: { Scene, Image },
-  setup () {
-    const game = useGame()
-    const onClick = () => {
-      game.scene.start('GameScene')
-      game.scene.start('UIScene')
-      game.scene.stop('TitleScene')
-    }
-    const preload = (scene: Phaser.Scene) => {
-      loadAssets(scene)
-    }
-    return {
-      onClick,
-      preload
-    }
-  }
-})
+
+const game = useGame()
+
+const onClick = () => {
+  game.scene.start('GameScene')
+  game.scene.start('UIScene')
+  game.scene.stop('TitleScene')
+}
+
+const preload = (scene: Phaser.Scene) => {
+  loadAssets(scene)
+}
 </script>

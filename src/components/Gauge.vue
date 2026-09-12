@@ -5,13 +5,8 @@
   </Container>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { Container, Rectangle } from 'phavuer'
-import { defineComponent } from 'vue'
-export default defineComponent({
-  components: { Container, Rectangle },
-  props: {
-    value: { type: Number, required: true }
-  }
-})
+
+defineProps<{ value: number }>()
 </script>
