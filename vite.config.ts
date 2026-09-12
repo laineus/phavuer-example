@@ -6,11 +6,12 @@ import packageJson from './package.json'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: './',
   plugins: [
     vue(),
     phaserAssetsRollupPlugin({
       patterns: [
-        { type: 'image', prefix: '', dir: '/img', rule: /^\w+\.png$/ }
+        { type: 'image', prefix: '', dir: './img', rule: /^\w+\.png$/ }
       ],
       output: 'src/assets.json'
     }),
