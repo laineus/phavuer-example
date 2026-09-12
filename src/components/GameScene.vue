@@ -13,9 +13,9 @@ import { Scene, Image } from 'phavuer'
 import PlayerComponent from './Player.vue'
 import EnemyComponent from './Enemy.vue'
 import BulletComponent from './Bullet.vue'
-import Player from './entities/Player'
-import Enemy from './entities/Enemy'
-import Bullet from './entities/Bullet'
+import { usePlayer, type Player } from '../composables/usePlayer'
+import { useEnemy, type Enemy } from '../composables/useEnemy'
+import { useBullet, type Bullet } from '../composables/useBullet'
 import config from '../config'
 import Repository from './Repository'
 
@@ -31,10 +31,10 @@ let tick = 0
 const create = () => {
   tick = 0
   score.value = 0
-  player.value = new Player({ x: 400, y: 300 })
+  player.value = usePlayer({ x: 400, y: 300 })
   player.value.on('shot', ((event: CustomEvent<{ x: number, y: number, r: number }>) => {
     const { x, y, r } = event.detail
-    bullets.add(new Bullet({ x, y, r, enemies }))
+    bullets.add(useBullet({ x, y, r, enemies }))
   }) as EventListenerOrEventListenerObject).on('destroy', () => emit('gameOver'))
   enemies.clear()
   bullets.clear()
@@ -49,7 +49,7 @@ const update = (scene: Phaser.Scene) => {
   if (activePointer) player.value?.setTargetPosition(activePointer.x, activePointer.y)
   const freq = Math.max(config.GAME.ENEMY_FREQ_BEGIN - Math.round(tick / 15), config.GAME.ENEMY_FREQ_END)
   if (tick % freq === 5) {
-    const enemy = new Enemy({ x: chance() ? 0 : 960, y: randomInt(50, 490), target: player.value as Player })
+    const enemy = useEnemy({ x: chance() ? 0 : 960, y: randomInt(50, 490), target: player.value as Player })
     enemy.on('destroy', () => {
       score.value += enemy.type.speed ?? 0
     })

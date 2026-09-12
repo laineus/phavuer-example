@@ -9,7 +9,7 @@ import * as Phaser from 'phaser'
 import { ref } from 'vue'
 import { Image, Body, onPostUpdate } from 'phavuer'
 import { FrameAnimator } from './substanceUtils'
-import Bullet from './entities/Bullet'
+import type { Bullet } from '../composables/useBullet'
 
 defineProps<{ bullet: Bullet }>()
 

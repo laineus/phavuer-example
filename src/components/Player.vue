@@ -14,8 +14,8 @@ import Gauge from './Gauge.vue'
 import Hit from './Hit.vue'
 import config from '../config'
 import { FrameAnimator, getAnimationKey8, getDieTween, WALK_ANIMATIONS_8 } from './substanceUtils'
-import BaseClass from './BaseClass'
-import Player from './entities/Player'
+import type { Entity } from '../composables/useEntity'
+import type { Player } from '../composables/usePlayer'
 
 const props = defineProps<{ player: Player }>()
 const maxHp = config.GAME.PLAYER_HP
@@ -29,7 +29,7 @@ const data = reactive({
 const tint = computed(() => data.dieTween || props.player.damageDelay ? 0xFF0000 : undefined)
 const animator = new FrameAnimator(WALK_ANIMATIONS_8)
 
-props.player.on('hit', ((event: CustomEvent<BaseClass>) => {
+props.player.on('hit', ((event: CustomEvent<Entity>) => {
   const enemy = event.detail
   data.hitVisible = true
   data.hitX = (enemy.x - props.player.x) / 2

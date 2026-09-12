@@ -9,7 +9,7 @@
 import { reactive } from 'vue'
 import { Container, Image, Body, onPostUpdate, Phavuer } from 'phavuer'
 import { FrameAnimator, getAnimationKey4, getDieTween, WALK_ANIMATIONS_4 } from './substanceUtils'
-import Enemy from './entities/Enemy'
+import type { Enemy } from '../composables/useEnemy'
 
 const props = defineProps<{ enemy: Enemy }>()
 const data = reactive({

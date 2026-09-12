@@ -1,6 +1,7 @@
 import { reactive } from 'vue'
-import BaseClass from './BaseClass'
-export default class Repository<T extends BaseClass> {
+import type { Entity } from '../composables/useEntity'
+
+export default class Repository<T extends Entity> {
   list = reactive([]) as Array<T>
   add (instance: T) {
     this.list.push(instance)
