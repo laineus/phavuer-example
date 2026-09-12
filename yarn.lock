@@ -549,10 +549,17 @@ phaser@^4.1.0:
   dependencies:
     eventemitter3 "^5.0.4"
 
-phavuer@^0.20.0:
-  version "0.20.0"
-  resolved "https://registry.yarnpkg.com/phavuer/-/phavuer-0.20.0.tgz#47dba788e0260dadb2b19167f8447f263ece7a8e"
-  integrity sha512-kHbIpYS76mtdEHb+Fj8LCL0/ypuqpaqZs59xzGQzOuX/NSQdci5YqqA0T+RBa2pFLxzJOBRoLm4ig5KDtfsJBg==
+phaser@^4.2.1:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/phaser/-/phaser-4.2.1.tgz#5512f23d348e6fb5c48ce71a9fbddd200ef919ea"
+  integrity sha512-WUNwCPJpdjvZiuT6SgCfYVW8Qw/3j0jJ4ws7P2QkhFLFu74sbGuyHJcbFueGkY/AYO4Pi47bNQXn1OCJeLX//w==
+  dependencies:
+    eventemitter3 "^5.0.4"
+
+phavuer@^0.23.0:
+  version "0.23.0"
+  resolved "https://registry.yarnpkg.com/phavuer/-/phavuer-0.23.0.tgz#8888b3ad0f5a3bb66031f2d122c7c612b1d770f4"
+  integrity sha512-MVlJUkRN1IUXi6Bub44NHqHlQsccq67be6H4UBBwmuCr6HcIKzu3kw8sNOPuEsDA9EnRSHnB12STZHx/UXRa8w==
   dependencies:
     phaser "^4.1.0"
     vue "^3.5.33"
